@@ -10,7 +10,7 @@ import FollowUpGeneral from "@/app/screens/followUp/followUpGeneral";
 import FollowUpComplexity from "@/app/screens/followUp/followUpComplexity";
 import FollowUpIntrusiveness from "@/app/screens/followUp/followUpIntrusiveness";
 import TerminalView from "./app/components/TerminalView";
-import PaymentScreenNew from "@/app/screens/paymentScreenCodegen";
+import PaymentScreenNew from "@/app/screens/paymentScreen";
 import TrialComplete from "@/app/screens/trialComplete";
 import TotalEntry from "@/app/screens/totalEntry";
 import { View } from "react-native";

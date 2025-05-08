@@ -9,6 +9,7 @@ import { useTipRounding } from "@/app/hooks/tipRounding";
 import RoundingCarousel from "@/app/components/flatListCarousel";
 
 import OkChevron from "@/assets/Icons/OkChevron";
+import BackButton from "@/app/components/backButton";
 
 export default function Scenario1() {
   const navigation = useNavigation<ScreenNavigationProp>();
@@ -35,20 +36,7 @@ export default function Scenario1() {
 
   return (
     <View style={commonStyles.fullScreen}>
-      <Text
-        style={{
-          position: "absolute",
-          top: 50,
-          left: 20,
-          fontSize: 16,
-          color: "#4f4f4f",
-          fontFamily: "Roboto-Regular",
-        }}
-        onPress={() => navigation.goBack()}
-      >
-        {" "}
-        Zurück
-      </Text>
+      <BackButton />
 
       <View style={styles.centerFlexColumn}>
         <View style={styles.totalBox}>
@@ -76,7 +64,9 @@ export default function Scenario1() {
             ]}
           >
             <View style={[styles.okButtonLabel]}>
-              <Text style={styles.labelText}>OK</Text>
+              <Text style={[styles.okButtonText, commonStyles.midGrey]}>
+                OK
+              </Text>
               <OkChevron style={styles.chevronIcon} width={40} height={40} />
             </View>
           </Pressable>
@@ -144,9 +134,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  labelText: {
+  okButtonText: {
     fontSize: 45,
-    color: "#65558f",
     fontFamily: "Roboto-Regular",
     lineHeight: 52,
     textAlign: "center",

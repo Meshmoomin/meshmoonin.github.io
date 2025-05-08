@@ -1,9 +1,11 @@
-import { View, Pressable, Text, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, Pressable, Text, StyleSheet, Switch } from "react-native";
 import { useScenarioStore } from "@/app/store/store";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/types/navigation";
 import { useCustomBackHandler } from "@/app/hooks/backHandler";
+import { commonStyles } from "@/app/styles/commonStyles";
 
 //console.log("Store available?", !!useScenarioStore); // Debugging, remove in production
 
@@ -21,6 +23,10 @@ export default function AdminScreen() {
     incrementParticipantID,
     setLogMessage,
   } = useScenarioStore();
+  const useDummyID = useScenarioStore((state) => state.useDummyID);
+  const setUseDummyID = useScenarioStore((state) => state.setUseDummyID);
+
+  const toggleSwitch = () => setUseDummyID(!useDummyID);
   useCustomBackHandler(() => true); // Returning `true` disables the back button
 
   // Scenario data - expand this for 20+ scenarios later
@@ -35,21 +41,22 @@ export default function AdminScreen() {
   const handleScenarioSelect = (scenarioId: number) => {
     resetLogMessage(); // Reset log message for the new scenario
     setScenario(scenarioId);
-    incrementParticipantID(nextParticipantID + 1); // Increment participant ID in Zustand
+    if (!useDummyID) {
+      incrementParticipantID(nextParticipantID + 1); // Increment participant ID in Zustand
+    }
     setLogMessage(
       "ID, " +
-        nextParticipantID +
+        (useDummyID ? 0 : nextParticipantID) +
         ", Interface, " +
         scenarios[scenarioId - 1].name +
         ", "
     ); // Add Scenario to Log
-    //console.log(`Scenario selected: ${scenarios[scenarioId - 1].name}`); // Debugging remove in production
     navigation.navigate("totalEntry"); // No need to pass ID - Zustand manages it
   };
 
   const handleNextTrial = () => {
     nextScenario(); // Updates currentScenario in Zustand
-    navigation.navigate("totalEntry");
+    handleScenarioSelect(currentScenario);
   };
 
   return (
@@ -58,7 +65,7 @@ export default function AdminScreen() {
       <Text style={styles.title}>Scenario Controls</Text>
       <Text style={styles.subtitle}>Current: Scenario {currentScenario}</Text>
       <Text style={styles.completed}>
-        Completed: {completedScenarios.length}/4
+        Completed: {completedScenarios.length}
       </Text>
       {/* Manual Scenario Selection Buttons */}
       <View style={styles.buttonGroup}>
@@ -79,13 +86,30 @@ export default function AdminScreen() {
       <Pressable style={styles.nextButton} onPress={handleNextTrial}>
         <Text style={styles.nextButtonText}>Next Trial →</Text>
       </Pressable>
-      {/* Export Button (Placeholder) */}
+      {/* Export Button (Placeholder)  TODO */}
       <Pressable
         style={styles.exportButton}
         onPress={() => console.log("Export data")}
       >
         <Text style={styles.exportButtonText}>Export Data</Text>
       </Pressable>
+      <View style={styles.switchSection}>
+        <Text
+          style={[
+            styles.dummyToggleText,
+            commonStyles.textSmall,
+            commonStyles.lightGrey,
+          ]}
+        >
+          Use Dummy ID
+        </Text>
+        <Switch
+          trackColor={{ false: "#767577", true: "#C1DFCD" }}
+          thumbColor={useDummyID ? "#f4f3f4" : "#f4f3f4"}
+          onValueChange={toggleSwitch}
+          value={useDummyID}
+        />
+      </View>
     </View>
   );
 }
@@ -153,4 +177,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+  switchSection: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    gap: 10,
+  },
+  dummyToggleText: {},
 });

@@ -25,20 +25,7 @@ export default function FollowUpGeneral() {
 
   return (
     <View style={styles.container}>
-      <Text
-        style={{
-          position: "absolute",
-          top: 50,
-          left: 20,
-          fontSize: 16,
-          color: "#4f4f4f",
-          fontFamily: "Roboto-Regular",
-        }}
-        onPress={() => navigation.goBack()}
-      >
-        {" "}
-        Zurück
-      </Text>
+      {/*  Debugging Remove in Production */}
       <Text style={styles.questionText}>
         Wie hat Ihnen der Bezahlprozess gefallen?
       </Text>
@@ -78,11 +65,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   questionText: {
-    fontSize: 24,
-    lineHeight: 32,
-    fontFamily: "Roboto-Regular",
-    color: "#4f4f4f",
+    fontSize: 32,
+    color: "#4F4F4F",
     textAlign: "center",
+    fontFamily: "Roboto",
+    lineHeight: 38,
     marginBottom: 40,
     maxWidth: "90%",
   },

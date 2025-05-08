@@ -10,7 +10,9 @@ type ScenarioState = {
   tipSelectionLog: string;
   tippedTotal: number;
   nextParticipantID: number;
+  useDummyID: boolean;
 
+  setUseDummyID: (value: boolean) => void;
   nextScenario: () => void;
   setScenario: (id: number) => void;
   markCompleted: () => void;
@@ -36,6 +38,8 @@ export const useScenarioStore = create<ScenarioState>((set) => ({
   logMessage: "\n start of log \n",
   totalEntryLog: "no total entered",
   tipSelectionLog: "no tip selected",
+  useDummyID: false,
+  setUseDummyID: (value) => set({ useDummyID: value }),
   incrementParticipantID: (id) => set({ nextParticipantID: id }),
   setTippedTotal: (total) => set({ tippedTotal: total }),
   setLogMessage: (message) =>

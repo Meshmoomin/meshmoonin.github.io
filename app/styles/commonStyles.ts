@@ -74,12 +74,12 @@ export const commonStyles = StyleSheet.create({
     opacity: 0.8,
     transform: [{ scale: 0.95 }],
   },
-  buttonText: {
+  cancelButtonText: {
     fontSize: 22,
     lineHeight: 28,
     textAlign: "center",
-    color: "#4F4F4F",
     fontFamily: "Roboto-Medium",
+    color: "#4F4F4F",
   },
   fullScreen: {
     flex: 1,
@@ -96,20 +96,15 @@ export const commonStyles = StyleSheet.create({
   cancelButton: {
     marginTop: 50,
     width: "80%",
-    height: 50,
     borderRadius: 16,
-    backgroundColor: "#aa5f5a",
-    shadowColor: "rgba(0, 0, 0, 0.15)",
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 8,
-    elevation: 8,
     justifyContent: "center",
     alignItems: "center",
   },
-  cancelButtonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontFamily: "Roboto-Medium",
+  cancelButtonRed: {
+    backgroundColor: "#EFB5B1",
+  },
+  confirmButtonGreen: {
+    backgroundColor: "#C1DFCD",
   },
   tapPlace: {
     marginTop: 50,

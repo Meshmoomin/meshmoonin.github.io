@@ -4,6 +4,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNavigationProp } from "@/types/navigation";
 import { useScenarioStore } from "@/app/store/store";
+import { commonStyles } from "@/app/styles/commonStyles";
+import BackButton from "../components/backButton";
 
 const TotalEntry = () => {
   const [amount, setAmount] = useState(""); // State to manage the large amount
@@ -35,11 +37,7 @@ const TotalEntry = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* 
-      <View style={styles.topAmountContainer}>
-        <Text style={styles.label}>Betrag:</Text>
-        <Text style={styles.smallAmount}>3.20€</Text>
-      </View> */}
+      <BackButton />
 
       {/* Editable Large Amount */}
       <View style={styles.largeAmountContainer}>
@@ -64,7 +62,10 @@ const TotalEntry = () => {
         ].map((key, index) => (
           <Pressable
             key={index}
-            style={styles.key}
+            style={({ pressed }) => [
+              styles.key,
+              pressed && commonStyles.buttonPressed,
+            ]}
             onPress={() => handleKeyPress(key)}
           >
             <Text style={styles.keyText}>
@@ -73,10 +74,23 @@ const TotalEntry = () => {
           </Pressable>
         ))}
         <Pressable
-          style={[styles.key, styles.enterKey]}
+          style={({ pressed }) => [
+            styles.key,
+            styles.enterKey,
+            commonStyles.confirmButtonGreen,
+            pressed && commonStyles.buttonPressed,
+          ]}
           onPress={() => handleEnterPress()}
         >
-          <Text style={styles.enterKeyText}>Enter</Text>
+          <Text
+            style={[
+              styles.enterKeyText,
+              commonStyles.textSmall,
+              commonStyles.midGrey,
+            ]}
+          >
+            Enter
+          </Text>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -147,9 +161,8 @@ const styles = StyleSheet.create({
   },
   enterKeyText: {
     fontSize: 18,
-    fontWeight: "500",
-    color: "#49454f",
-    fontFamily: "Roboto-Medium",
+    fontWeight: "600",
+    fontFamily: "Roboto",
   },
 });
 

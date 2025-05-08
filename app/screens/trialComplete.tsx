@@ -6,6 +6,7 @@ import { commonStyles } from "../styles/commonStyles";
 
 import { useScenarioStore } from "@/app/store/store";
 import { useCustomBackHandler } from "@/app/hooks/backHandler";
+import { SafeAreaView } from "react-native";
 
 export default function TrialComplete() {
   const navigation = useNavigation<ScreenNavigationProp>();
@@ -36,6 +37,7 @@ export default function TrialComplete() {
 
   const appendCSV = () => {
     // Append the log message to the CSV file
+    //TODO
 
     // This function should be implemented to handle the actual file writing
     // For now, it's just a placeholder
@@ -43,36 +45,38 @@ export default function TrialComplete() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={{ margin: 20 }}>
+    <SafeAreaView style={[commonStyles.fullScreen, styles.container]}>
+      <View style={styles.saveButtonSection}>
         <Pressable
           onPress={handleComplete}
           style={({ pressed }) => [
-            styles.button,
             commonStyles.button,
+            styles.saveButton,
+            commonStyles.confirmButtonGreen,
             pressed && commonStyles.buttonPressed,
           ]}
         >
-          <Text style={[styles.label, commonStyles.buttonText]}>
+          <Text style={[styles.label, commonStyles.cancelButtonText]}>
             Daten Speichern
           </Text>
         </Pressable>
       </View>
-      <View>
+      <View style={styles.cancelButtonSection}>
         <Pressable
           onPress={handleCancel}
           style={({ pressed }) => [
             commonStyles.button,
             styles.cancelButton,
+            commonStyles.cancelButtonRed,
             pressed && commonStyles.buttonPressed,
           ]}
         >
-          <Text style={[styles.label, commonStyles.buttonText]}>
+          <Text style={[styles.label, commonStyles.cancelButtonText]}>
             Szenario Abbrechen
           </Text>
         </Pressable>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -82,16 +86,32 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    padding: 20,
   },
-  button: {
+  saveButtonSection: {
+    flex: 3,
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: "30%",
+  },
+  cancelButtonSection: {
+    flex: 1,
+    justifyContent: "center",
+    alignContent: "center",
+    padding: 20,
+  },
+  saveButton: {
     backgroundColor: "#ECE6F0",
-    padding: 90,
+    height: "20%",
     borderRadius: 5,
+    justifyContent: "center",
   },
   cancelButton: {
-    backgroundColor: "#E2938E",
     padding: 40,
     borderRadius: 5,
+    justifyContent: "center",
+    height: "50%",
   },
   label: {
     fontSize: 22,

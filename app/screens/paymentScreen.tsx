@@ -5,6 +5,7 @@ import { commonStyles } from "@/app/styles/commonStyles";
 import { Text, StyleSheet, View, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useScenarioStore } from "@/app/store/store";
+import BackButton from "@/app/components/backButton";
 
 import CardPlacement from "@/assets/Icons/CardPlacement";
 
@@ -24,6 +25,7 @@ const PaymentScreenNew = () => {
 
   return (
     <SafeAreaView style={[commonStyles.fullScreen, styles.container]}>
+      <BackButton />
       <View style={[styles.baseScreen, commonStyles.centerContent]}>
         {/* Amount Display */}
         <View style={[styles.amountContainer, commonStyles.centerContent]}>
@@ -53,14 +55,16 @@ const PaymentScreenNew = () => {
 
         {/* Cancel Button */}
         <Pressable
-          style={[
+          style={({ pressed }) => [
             commonStyles.button,
             styles.cancelButton,
             commonStyles.centerContent,
+            commonStyles.cancelButtonRed,
+            pressed && commonStyles.buttonPressed,
           ]}
           onPress={() => navigation.goBack()}
         >
-          <Text style={[commonStyles.buttonText]}>Zurück</Text>
+          <Text style={[commonStyles.cancelButtonText]}>Zurück</Text>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -121,9 +125,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   cancelButton: {
-    marginTop: 50,
+    margin: 50,
     width: "80%",
-    backgroundColor: "#aa5f5a",
+    height: "10%",
     shadowColor: "rgba(0, 0, 0, 0.15)",
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 8,
