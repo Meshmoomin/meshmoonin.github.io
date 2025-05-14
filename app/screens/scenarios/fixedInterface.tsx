@@ -89,7 +89,7 @@ export default function FixedInterface() {
             onPress={() => handleTipSelect(0)}
           >
             <Cancel width={38} height={38} />
-            <Text style={styles.noTipText}>Kein Tip</Text>
+            <Text style={styles.noTipText}>Kein Trinkgeld</Text>
           </Pressable>
         </View>
       </View>
