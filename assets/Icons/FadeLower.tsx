@@ -7,18 +7,21 @@ import Svg, {
   SvgProps,
 } from "react-native-svg";
 const FadeLower = (props: SvgProps) => (
-  <Svg width={181} height={121} viewBox="0 0 181 121" fill="none" {...props}>
-    <Path
-      d="M0.5 0.24646H180.5V120.246H0.5V0.24646Z"
-      fill="url(#paint0_linear_54748_2124)"
-    />
+  <Svg
+    width={props.width || "100%"}
+    height={props.height || 121}
+    viewBox="0 0 181 121"
+    fill="none"
+    {...props}
+  >
+    <Path d="M0 0H181V121H0V0Z" fill="url(#paint0_linear_54748_2124)" />
     <Defs>
       <LinearGradient
         id="paint0_linear_54748_2124"
         x1={90.5}
-        y1={0.24646}
+        y1={0}
         x2={90.5}
-        y2={120.246}
+        y2={121}
         gradientUnits="userSpaceOnUse"
       >
         <Stop stopColor="white" stopOpacity={0} />

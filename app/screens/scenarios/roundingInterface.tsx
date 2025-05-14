@@ -95,10 +95,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 10,
   },
-  totalNumberFlexBox: {
-    flex: 0,
-    justifyContent: "center",
-  },
   roudUpShadowBox: {
     minWidth: 80,
     backgroundColor: "#ece6f0",
@@ -114,9 +110,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  currentTotalFlexBox: {
-    flexDirection: "row",
-  },
   totalText: {
     fontSize: 28,
     lineHeight: 40,
@@ -124,10 +117,6 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto",
     color: "#afafaf",
     textAlign: "center",
-  },
-  currentTotalNumber: {
-    flexDirection: "row",
-    alignItems: "center",
   },
   totalBox: {
     flex: 0,
@@ -162,13 +151,5 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     justifyContent: "center",
     alignItems: "center",
-  },
-  currentTotalText: {
-    fontSize: 80,
-    lineHeight: 90,
-    fontWeight: "600",
-    fontFamily: "Roboto-Bold",
-    color: "#1f1f1f",
-    textAlign: "center",
   },
 });

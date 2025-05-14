@@ -8,6 +8,7 @@ import { useScenarioStore } from "@/app/store/store";
 import Cancel from "@/assets/Icons/CancelCircle";
 import { commonStyles } from "@/app/styles/commonStyles";
 import BackButton from "@/app/components/backButton";
+import CurrentTotalLarge from "@/app/components/currentTotalLarge";
 
 // Define your tip options at the top of the component or file
 const tipOptions = [
@@ -43,12 +44,7 @@ export default function PercentInterface() {
       {/* Main Content */}
       <View style={styles.centerFlexColumn}>
         {/* Aktueller Betrag */}
-        <View style={styles.currentAmountSection}>
-          <Text style={styles.totalLabelText}>Betrag:</Text>
-          <Text style={styles.currentAmountText}>
-            {currentTotal.toFixed(2)}€
-          </Text>
-        </View>
+        <CurrentTotalLarge />
 
         {/* Tip Options */}
         <View style={styles.tipOptionsSection}>
@@ -95,24 +91,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
-  },
-  totalLabelText: {
-    fontSize: 28,
-    lineHeight: 40,
-    fontWeight: "600",
-    fontFamily: "Roboto",
-    color: "#afafaf",
-    textAlign: "center",
-  },
-  amountSection: {
-    flex: 1,
-    alignItems: "center",
-    marginBottom: 24,
-  },
-  amountRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 8,
   },
   tipOptionsSection: {
     flex: 2,
@@ -164,37 +142,5 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: "#4f4f4f",
     marginLeft: 8,
-  },
-  currentAmountSection: {
-    flex: 1,
-    justifyContent: "center",
-    marginTop: "30%",
-    marginBottom: "10%",
-  },
-  currentAmountText: {
-    fontSize: 64,
-    fontWeight: "700",
-    color: "#1f1f1f",
-    textAlign: "center",
-    marginHorizontal: 4,
-  },
-  totalText: {
-    fontSize: 80,
-    letterSpacing: 0,
-    lineHeight: 64,
-    fontWeight: "900",
-    fontFamily: "Roboto-Bold",
-    color: "#1f1f1f",
-    textAlign: "center",
-    padding: 10,
-  },
-  betragAktuell: {
-    flex: 1,
-    width: "100%",
-    height: 83,
-    flexDirection: "row",
-    justifyContent: "center",
-    padding: 10,
-    gap: 4,
   },
 });

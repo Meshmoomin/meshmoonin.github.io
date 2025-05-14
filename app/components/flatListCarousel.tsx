@@ -16,6 +16,7 @@ import ArrowUp from "@/assets/Icons/ArrowUp";
 import ArrowDown from "@/assets/Icons/ArrowDown";
 import FadeUpper from "@/assets/Icons/FadeUpper";
 import FadeLower from "@/assets/Icons/FadeLower";
+import { LinearGradient } from "expo-linear-gradient";
 
 const { width, height } = Dimensions.get("window");
 const ITEM_HEIGHT = 120;
@@ -147,14 +148,14 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
-        <FadeUpper
-          style={[
-            {
-              top: 0,
-            },
-            styles.fade,
-          ]}
-        />
+        <View style={[styles.fade, { top: 30, height: 50, width: "100%" }]}>
+          <LinearGradient
+            colors={["white", "transparent"]}
+            style={{ flex: 1, width: "100%" }}
+            start={{ x: 0.0, y: 0 }}
+            end={{ x: 0.0, y: 1 }}
+          />
+        </View>
         <AnimatedFlatList
           onLayout={() => {
             scrollToIndex(extendedValues.length - 1);
@@ -188,7 +189,16 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
           },
           styles.fade,
         ]}
+        width="70%"
       />
+      <View style={[styles.fade, { bottom: 0, height: 60, width: "100%" }]}>
+        <LinearGradient
+          colors={["transparent", "white"]}
+          style={{ flex: 1, width: "100%" }}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+        />
+      </View>
       <View style={styles.buttonContainer}>
         <Pressable
           style={({ pressed }) => [
@@ -232,9 +242,9 @@ const styles = StyleSheet.create({
   fade: {
     pointerEvents: "none",
     position: "absolute",
-    flex: 1,
     flexDirection: "row",
     zIndex: 1,
+    overflow: "hidden",
   },
   icon: {
     margin: 5,
@@ -249,11 +259,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 10,
     alignItems: "center",
-  },
-  buttonText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#65558f",
   },
   item: {
     justifyContent: "center",
