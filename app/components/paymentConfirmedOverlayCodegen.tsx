@@ -1,41 +1,46 @@
 import * as React from "react";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Check from "@/assets/Icons/Check";
+import Check from "@/assets/Icons/CheckMark";
+
+const { width: screenWidth } = Dimensions.get("window");
 
 const PaymentConfirmedOverlay = () => {
+  // Responsive sizing for the check icon and overlay
+  const overlayHeight = Math.min(320, screenWidth * 0.7);
+  const iconSize = overlayHeight * 0.6;
+
   return (
-    <SafeAreaView style={styles.paymentConfirmedOverlay}>
-      <View style={styles.paymentConfirmedOverlayChild} />
-      <Check style={styles.checkIcon} width={165} height={165} />
+    <SafeAreaView style={[styles.overlay, { height: overlayHeight }]}>
+      <View style={styles.background} />
+      <View style={styles.iconContainer}>
+        <Check width={iconSize} height={iconSize} />
+      </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  paymentConfirmedOverlayChild: {
-    height: "100%",
-    top: "0%",
-    right: "0%",
-    bottom: "0%",
-    left: "0%",
+  overlay: {
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+  },
+  background: {
+    ...StyleSheet.absoluteFillObject,
     borderRadius: 20,
     backgroundColor: "#fff",
     borderStyle: "solid",
     borderColor: "#1f1f1f",
     borderWidth: 7,
-    position: "absolute",
-    width: "100%",
   },
-  checkIcon: {
-    top: 47,
-    left: 81,
-    position: "absolute",
-  },
-  paymentConfirmedOverlay: {
+  iconContainer: {
     flex: 1,
-    height: 266,
-    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1,
   },
 });
 

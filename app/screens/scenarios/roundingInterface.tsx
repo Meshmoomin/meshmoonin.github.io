@@ -7,9 +7,11 @@ import { ScreenNavigationProp } from "@/types/navigation";
 import { commonStyles } from "@/app/styles/commonStyles";
 import { useTipRounding } from "@/app/hooks/tipRounding";
 import RoundingCarousel from "@/app/components/flatListCarousel";
+import CurrentTotalSmall from "@/app/components/currentTotalSmall";
 
 import OkChevron from "@/assets/Icons/OkChevron";
 import BackButton from "@/app/components/backButton";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Scenario1() {
   const navigation = useNavigation<ScreenNavigationProp>();
@@ -35,16 +37,11 @@ export default function Scenario1() {
   };
 
   return (
-    <View style={commonStyles.fullScreen}>
+    <SafeAreaView style={commonStyles.fullScreen}>
       <BackButton />
 
       <View style={styles.centerFlexColumn}>
-        <View style={styles.totalBox}>
-          <Text style={[styles.totalText, commonStyles.lightGrey]}>
-            Betrag:
-          </Text>
-          <Text style={styles.totalText}>{currentTotal.toFixed(2)}€</Text>
-        </View>
+        <CurrentTotalSmall currentTotal={currentTotal} />
 
         <View style={styles.carouselBox}>
           <RoundingCarousel
@@ -72,7 +69,7 @@ export default function Scenario1() {
           </Pressable>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -107,19 +104,6 @@ const styles = StyleSheet.create({
       height: 4,
     },
     shadowColor: "rgba(0, 0, 0, 0.15)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  totalText: {
-    fontSize: 28,
-    lineHeight: 40,
-    fontWeight: 500,
-    fontFamily: "Roboto",
-    color: "#afafaf",
-    textAlign: "center",
-  },
-  totalBox: {
-    flex: 0,
     justifyContent: "center",
     alignItems: "center",
   },

@@ -6,11 +6,28 @@ import { Text, StyleSheet, View, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useScenarioStore } from "@/app/store/store";
 import BackButton from "@/app/components/backButton";
+import CurrentTotalSmall from "@/app/components/currentTotalSmall";
 
 import CardPlacement from "@/assets/Icons/CardPlacement";
+import CheckMark from "@/assets/Icons/CheckMark";
 
 const PaymentScreenNew = () => {
   const navigation = useNavigation<ScreenNavigationProp>();
+  const [paid, setPaid] = React.useState(false);
+  const CardPlacementSection = () => (
+    <Pressable style={styles.tapPlace} onPress={handlePaymentSuccess}>
+      <CardPlacement style={styles.placementIcon} />
+    </Pressable>
+  );
+
+  const PaidSection = () => (
+    <View style={styles.tapPlace}>
+      <View style={styles.iconContainer}>
+        <CheckMark width={200} height={200} />
+        {/* Or use your Check icon */}
+      </View>
+    </View>
+  );
 
   const navigateToFollowUp = () => {
     navigation.navigate("FollowUpGeneral");
@@ -20,29 +37,18 @@ const PaymentScreenNew = () => {
 
   const handlePaymentSuccess = () => {
     setLogMessage(totalEntryLog + tipSelectionLog + "Payment, success, ");
-    navigateToFollowUp();
+    setPaid(true);
+    // Simulate a payment success and navigate to the follow-up screen
+    setTimeout(() => {
+      navigateToFollowUp();
+    }, 1500);
   };
 
   return (
     <SafeAreaView style={[commonStyles.fullScreen, styles.container]}>
-      <BackButton />
       <View style={[styles.baseScreen, commonStyles.centerContent]}>
-        {/* Amount Display */}
-        <View style={[styles.amountContainer, commonStyles.centerContent]}>
-          <Text style={[commonStyles.textLarge, commonStyles.lightGrey]}>
-            Betrag:
-          </Text>
-          <Text style={[commonStyles.textLarge, styles.amountText]}>
-            {tippedTotal.toFixed(2)}€
-          </Text>
-        </View>
-
-        {/* Tap Place Area */}
-        <Pressable style={styles.tapPlace} onPress={handlePaymentSuccess}>
-          <CardPlacement style={styles.placementIcon} />
-        </Pressable>
-
-        {/* Instruction Text */}
+        <CurrentTotalSmall currentTotal={tippedTotal} />
+        {paid ? <PaidSection /> : <CardPlacementSection />}
         <Text
           style={[
             commonStyles.textLarge,
@@ -52,8 +58,6 @@ const PaymentScreenNew = () => {
         >
           Karte an den Bildschirm halten
         </Text>
-
-        {/* Cancel Button */}
         <Pressable
           style={({ pressed }) => [
             commonStyles.button,
@@ -90,10 +94,6 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "#ece6f0",
   },
-  backButtonText: {
-    margin: 10,
-    color: "#49454f",
-  },
   tapPlace: {
     margin: 30,
     width: "80%",
@@ -117,13 +117,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "500",
   },
-  amountContainer: {
-    marginTop: 30,
-  },
-  amountText: {
-    color: "#afafaf",
-    marginHorizontal: 5,
-  },
   cancelButton: {
     margin: 50,
     width: "80%",
@@ -132,6 +125,19 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 8,
     elevation: 8,
+  },
+  overlay: {
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+  },
+  iconContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1,
   },
 });
 

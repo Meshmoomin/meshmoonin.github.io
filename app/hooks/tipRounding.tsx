@@ -14,7 +14,7 @@ export const useTipRounding = (total: number): number[] => {
     // Apply the tip increase
     var new_price = priceCents * (1 + percentage * (i + 1));
     var roundTo = 50; // Round to the nearest 50 cents
-    if (priceCents >= 1000) {
+    if (priceCents >= 2000) {
       roundTo = 100; // Round to the nearest euro for totals >= 10 euros
       // For totals less than 10 euros, round to the nearest 50 cents
     }

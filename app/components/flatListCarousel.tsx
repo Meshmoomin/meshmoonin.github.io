@@ -148,11 +148,11 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
-        <View style={[styles.fade, { top: 30, height: 50, width: "100%" }]}>
+        <View style={[styles.fade, { top: 0, height: 80, width: "100%" }]}>
           <LinearGradient
             colors={["white", "transparent"]}
             style={{ flex: 1, width: "100%" }}
-            start={{ x: 0.0, y: 0 }}
+            start={{ x: 0.0, y: 0.2 }}
             end={{ x: 0.0, y: 1 }}
           />
         </View>
