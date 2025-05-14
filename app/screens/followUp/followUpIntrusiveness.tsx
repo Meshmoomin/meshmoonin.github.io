@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ScreenNavigationProp } from "@/types/navigation";
 import { useScenarioStore } from "@/app/store/store";
 import { useCustomBackHandler } from "@/app/hooks/backHandler";
+import { commonStyles } from "@/app/styles/commonStyles";
 
 export default function FollowUpComplexity() {
   const navigation = useNavigation<ScreenNavigationProp>();
@@ -37,7 +38,7 @@ export default function FollowUpComplexity() {
             key={option.value}
             style={({ pressed }) => [
               styles.optionPressable,
-              pressed && styles.optionPressablePressed,
+              pressed && commonStyles.buttonPressed,
             ]}
             onPress={() => handleOptionSelect(option.value)}
           >
@@ -98,9 +99,5 @@ const styles = StyleSheet.create({
     paddingRight: 12,
     flexWrap: "wrap",
     includeFontPadding: false, // Prevents extra line spacing
-  },
-  optionPressablePressed: {
-    opacity: 0.8,
-    transform: [{ scale: 0.95 }],
   },
 });

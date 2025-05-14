@@ -10,10 +10,8 @@ export default function LabeledScaleOption({
 }: LabeledScaleOptionProps) {
   return (
     <View style={styles.container}>
-      <View style={styles.group4}>
-        <View style={styles.stateLayer}>
-          <Text style={styles.optionText}>{optionText}</Text>
-        </View>
+      <View style={styles.stateLayer}>
+        <Text style={styles.optionText}>{optionText}</Text>
       </View>
     </View>
   );
@@ -26,36 +24,23 @@ const styles = StyleSheet.create({
     height: 94,
     justifyContent: "center",
     alignItems: "center",
-    borderBottomLeftRadius: 28,
-    borderBottomRightRadius: 28,
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
+    borderRadius: 28,
     backgroundColor: "#ECE6F0",
   },
   optionText: {
-    width: 41.313,
-    height: 33.051,
-    flexDirection: "column",
+    width: 41,
+    height: 33,
     justifyContent: "center",
     color: "#4F4F4F",
     textAlign: "center",
     fontFamily: "Roboto",
     fontSize: 22,
-    fontStyle: "normal",
     fontWeight: "800",
     lineHeight: 28,
   },
-  group4: {
-    width: 101.313,
-    height: 93.051,
-    flexShrink: 0,
-  },
   stateLayer: {
     flexDirection: "row",
-    paddingTop: 30,
-    paddingLeft: 30,
-    paddingBottom: 30,
-    paddingRight: 30,
+    padding: 30,
     justifyContent: "center",
     alignItems: "center",
     rowGap: 10,
