@@ -26,6 +26,19 @@ export default function SurveyComplete() {
   return (
     <SafeAreaView style={commonStyles.fullScreen}>
       <View style={styles.centerContent}>
+        <View style={styles.instructionSection}>
+          <Text
+            style={[
+              commonStyles.textSmall,
+              commonStyles.lightGrey,
+              styles.instructionText,
+            ]}
+          >
+            Admin Feature: Smiley 1 Sek. gedrückt halten um zum Speichern der
+            Daten zu kommen.
+          </Text>
+        </View>
+
         <Pressable
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
@@ -59,8 +72,20 @@ const styles = StyleSheet.create({
   },
   thankYouText: {
     fontSize: 32,
-    fontFamily: "Roboto-Regular",
+    fontFamily: "Roboto",
     marginTop: 8,
     textAlign: "center",
+  },
+  instructionText: {
+    fontSize: 16,
+    fontFamily: "Roboto",
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  instructionSection: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 32,
+    paddingHorizontal: 20,
   },
 });

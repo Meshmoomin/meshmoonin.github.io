@@ -179,12 +179,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   switchSection: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     alignContent: "center",
     alignItems: "center",
     gap: 10,
+    margin: 20,
   },
   dummyToggleText: {},
 });

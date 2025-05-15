@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   },
   okButtonText: {
     fontSize: 45,
-    fontFamily: "Roboto-Regular",
+    fontFamily: "Roboto",
     lineHeight: 52,
     textAlign: "center",
   },

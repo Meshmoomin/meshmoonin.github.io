@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ece6f0",
   },
   tapPlace: {
-    margin: 30,
+    marginVertical: 60,
     width: "80%",
     height: "30%",
     alignSelf: "center",

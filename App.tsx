@@ -10,9 +10,9 @@ import FollowUpGeneral from "@/app/screens/followUp/followUpGeneral";
 import FollowUpComplexity from "@/app/screens/followUp/followUpComplexity";
 import FollowUpIntrusiveness from "@/app/screens/followUp/followUpIntrusiveness";
 import TerminalView from "./app/components/TerminalView";
-import PaymentScreenNew from "@/app/screens/paymentScreen";
-import TrialComplete from "@/app/screens/trialComplete";
-import TotalEntry from "@/app/screens/totalEntry";
+import PaymentScreenNew from "@/app/screens/PaymentScreen";
+import TrialComplete from "@/app/screens/TrialComplete";
+import TotalEntry from "@/app/screens/TotalEntry";
 import SurveyComplete from "@/app/screens/SurveyComplete";
 import { View } from "react-native";
 import { initLogger } from "@/app/logger/logger";
@@ -35,7 +35,7 @@ export default function App() {
             <Stack.Screen
               name="Admin"
               component={AdminScreen}
-              options={{ headerShown: true, title: "Admin Controls" }}
+              options={{ headerShown: false, title: "Admin Controls" }}
             />
             <Stack.Screen
               name="Scenario"

@@ -23,10 +23,10 @@ export const commonStyles = StyleSheet.create({
   textCenter: {
     textAlign: "center",
     color: "#4f4f4f",
-    fontFamily: "Roboto-Regular",
+    fontFamily: "Roboto",
   },
   textLarge: {
-    fontSize: 32,
+    fontSize: 42,
   },
   textSmall: {
     fontSize: 22,
@@ -35,20 +35,20 @@ export const commonStyles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: "#333",
-    fontFamily: "Roboto-Bold",
+    fontFamily: "Roboto",
     textAlign: "center",
   },
   subheading: {
     fontSize: 18,
     fontWeight: "600",
     color: "#555",
-    fontFamily: "Roboto-Medium",
+    fontFamily: "Roboto",
     textAlign: "center",
   },
   bodyText: {
     fontSize: 14,
     color: "#666",
-    fontFamily: "Roboto-Regular",
+    fontFamily: "Roboto",
     textAlign: "left",
   },
   marginSmall: {
@@ -78,7 +78,8 @@ export const commonStyles = StyleSheet.create({
     fontSize: 22,
     lineHeight: 28,
     textAlign: "center",
-    fontFamily: "Roboto-Medium",
+    fontFamily: "Roboto",
+    fontWeight: "600",
     color: "#4F4F4F",
   },
   fullScreen: {
@@ -117,6 +118,6 @@ export const commonStyles = StyleSheet.create({
     textAlign: "center",
     color: "#4f4f4f",
     fontSize: 16,
-    fontFamily: "Roboto-Regular",
+    fontFamily: "Roboto",
   },
 });

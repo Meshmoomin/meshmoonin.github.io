@@ -115,13 +115,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "500",
     color: "#afafaf",
-    fontFamily: "Roboto-Medium",
+    fontFamily: "Roboto",
   },
   smallAmount: {
     fontSize: 20,
     fontWeight: "500",
     color: "#afafaf",
-    fontFamily: "Roboto-Medium",
+    fontFamily: "Roboto",
   },
   largeAmountContainer: {
     alignItems: "center",
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     fontSize: 60,
     fontWeight: "600",
     color: "#1f1f1f",
-    fontFamily: "Roboto-Bold",
+    fontFamily: "Roboto",
   },
   keyboard: {
     width: "80%",
@@ -152,9 +152,9 @@ const styles = StyleSheet.create({
   },
   keyText: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: "700",
     color: "#1d1b20",
-    fontFamily: "Roboto-Regular",
+    fontFamily: "Roboto",
   },
   enterKey: {
     backgroundColor: "#ece6f0",

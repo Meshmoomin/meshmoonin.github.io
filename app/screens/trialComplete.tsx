@@ -12,8 +12,14 @@ export default function TrialComplete() {
   const navigation = useNavigation<ScreenNavigationProp>();
   useCustomBackHandler(() => true); // Returning `true` disables the back button
 
-  const { logMessage, setLogMessage, resetLogMessage, appendToLog } =
-    useScenarioStore();
+  const {
+    currentTotal,
+    tippedTotal,
+    logMessage,
+    setLogMessage,
+    resetLogMessage,
+    appendToLog,
+  } = useScenarioStore();
 
   const storeFile = async () => {
     // Add to log
@@ -46,6 +52,14 @@ export default function TrialComplete() {
 
   return (
     <SafeAreaView style={[commonStyles.fullScreen, styles.container]}>
+      <View style={styles.readOutSection}>
+        <Text style={(commonStyles.textLarge, commonStyles.midGrey)}>
+          Betrag: {currentTotal.toFixed(2)}€
+        </Text>
+        <Text style={(commonStyles.textLarge, commonStyles.midGrey)}>
+          Trinkgeld: {(tippedTotal - currentTotal).toFixed(2)}€
+        </Text>
+      </View>
       <View style={styles.saveButtonSection}>
         <Pressable
           onPress={handleComplete}
@@ -88,6 +102,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
   },
+  readOutSection: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
   saveButtonSection: {
     flex: 3,
     alignContent: "center",
@@ -118,6 +138,7 @@ const styles = StyleSheet.create({
     color: "#4F4F4F",
     textAlign: "center",
     fontFamily: "Roboto",
+    fontWeight: "600",
     lineHeight: 28,
   },
 });

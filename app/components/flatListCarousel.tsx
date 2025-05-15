@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
     fontSize: 70,
     lineHeight: 80,
     color: "#4f4f4f",
-    fontFamily: "Roboto-Regular",
+    fontFamily: "Roboto",
     fontWeight: "semibold",
   },
 });
