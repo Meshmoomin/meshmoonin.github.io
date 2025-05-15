@@ -26,6 +26,9 @@
       "output": "single",
       "bundler": "metro"
     },
-    "plugins": []
+    "plugins": [],
+    "experiments": {
+      "baseUrl": "/meshmoonin.github.io/"
+    }
   }
 }
