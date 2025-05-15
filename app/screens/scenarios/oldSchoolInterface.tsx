@@ -143,7 +143,8 @@ const styles = StyleSheet.create({
   },
   largeAmountContainer: {
     alignItems: "center",
-    marginVertical: 40,
+    marginTop: 40,
+    marginBottom: 20,
   },
   largeAmount: {
     fontSize: 60,
