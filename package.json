@@ -10,8 +10,8 @@
     "web": "expo start --web",
     "build:web": "expo export:web",
     "export:web": "webpack serve --config webpack.config.js --mode development",
-    "deploy": "gh-pages -d web-build",
-    "predeploy": "expo export:web"
+    "deploy": "gh-pages --nojekyll -d dist",
+    "predeploy": "expo export -p web"
   },
   "dependencies": {
     "@expo-google-fonts/roboto": "^0.3.0",

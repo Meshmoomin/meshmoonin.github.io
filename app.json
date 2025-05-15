@@ -23,9 +23,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png",
-      "output": "static",
-      "bundler": "webpack"
+      "output": "single",
+      "bundler": "metro"
     },
-    "plugins": []
+    "plugins": [],
+    "experiments": {
+      "baseUrl": "/BA-Tipping-Interfaces"
+    }
   }
 }
