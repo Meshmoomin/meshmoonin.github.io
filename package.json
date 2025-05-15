@@ -2,11 +2,16 @@
   "name": "basicroundinginterface",
   "version": "1.0.0",
   "main": "index.ts",
+  "homepage": "http://meshmoomin.github.io/BA-Tipping-Interfaces",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "build:web": "expo export:web",
+    "export:web": "webpack serve --config webpack.config.js --mode development",
+    "deploy": "gh-pages -d web-build",
+    "predeploy": "expo export:web"
   },
   "dependencies": {
     "@expo-google-fonts/roboto": "^0.3.0",
@@ -31,6 +36,8 @@
     "react-native-vector-icons": "^10.2.0",
     "react-native-web": "~0.19.13",
     "react-navigation": "^5.0.0",
+    "webpack": "^5.99.8",
+    "webpack-cli": "^6.0.1",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
@@ -51,6 +58,7 @@
     "@types/react-native-vector-icons": "^6.4.18",
     "@types/react-navigation": "^3.0.8",
     "expo-module-scripts": "^4.1.6",
+    "gh-pages": "^6.3.0",
     "metro-react-native-babel-preset": "^0.77.0",
     "typescript": "^5.3.3"
   },

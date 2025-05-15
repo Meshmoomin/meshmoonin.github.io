@@ -9,6 +9,7 @@ export type RootStackParamList = {
   Payment: undefined;
   TrialComplete: undefined;
   totalEntry: undefined;
+  SurveyComplete: undefined;
 };
 
 // Type for useNavigation hook

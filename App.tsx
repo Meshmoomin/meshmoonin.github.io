@@ -13,6 +13,7 @@ import TerminalView from "./app/components/TerminalView";
 import PaymentScreenNew from "@/app/screens/paymentScreen";
 import TrialComplete from "@/app/screens/trialComplete";
 import TotalEntry from "@/app/screens/totalEntry";
+import SurveyComplete from "@/app/screens/SurveyComplete";
 import { View } from "react-native";
 import { initLogger } from "@/app/logger/logger";
 import { useEffect } from "react";
@@ -54,6 +55,10 @@ export default function App() {
             <Stack.Screen name="Payment" component={PaymentScreenNew} />
             <Stack.Screen name="TrialComplete" component={TrialComplete} />
             <Stack.Screen name="totalEntry" component={TotalEntry} />
+            <Stack.Screen name="SurveyComplete" component={SurveyComplete} />
+            {/* Add more screens as needed */}
+            {/* Example: <Stack.Screen name="AnotherScreen" component={AnotherScreen} /> */}
+            {/* <Stack.Screen name="FollowUpIntrusiveness" component={FollowUpIntrusiveness} /> */}
             {/* Add more screens as needed */}
             {/* Example: <Stack.Screen name="AnotherScreen" component={AnotherScreen} /> */}
             {/* <Stack.Screen name="FollowUpIntrusiveness" component={FollowUpIntrusiveness} /> */}
