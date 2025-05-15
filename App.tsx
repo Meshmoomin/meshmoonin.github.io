@@ -42,6 +42,7 @@ export default function App() {
               component={ScenarioRouter}
               options={{ headerShown: false }}
             />
+            {/* Add more FollowUp screens as needed */}
             <Stack.Screen name="FollowUpGeneral" component={FollowUpGeneral} />
             <Stack.Screen
               name="FollowUpComplexity"
@@ -56,13 +57,6 @@ export default function App() {
             <Stack.Screen name="TrialComplete" component={TrialComplete} />
             <Stack.Screen name="totalEntry" component={TotalEntry} />
             <Stack.Screen name="SurveyComplete" component={SurveyComplete} />
-            {/* Add more screens as needed */}
-            {/* Example: <Stack.Screen name="AnotherScreen" component={AnotherScreen} /> */}
-            {/* <Stack.Screen name="FollowUpIntrusiveness" component={FollowUpIntrusiveness} /> */}
-            {/* Add more screens as needed */}
-            {/* Example: <Stack.Screen name="AnotherScreen" component={AnotherScreen} /> */}
-            {/* <Stack.Screen name="FollowUpIntrusiveness" component={FollowUpIntrusiveness} /> */}
-            {/* Add more FollowUp screens as needed */}
           </Stack.Navigator>
         </TerminalView>
       </NavigationContainer>
