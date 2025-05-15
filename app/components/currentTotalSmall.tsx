@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     flex: 0,
     justifyContent: "center",
     alignItems: "center",
+    margin: 20,
   },
 });
 export default CurrentTotalSmall;
