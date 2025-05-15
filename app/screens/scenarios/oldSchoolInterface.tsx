@@ -6,6 +6,7 @@ import { ScreenNavigationProp } from "@/types/navigation";
 import { useScenarioStore } from "@/app/store/store";
 import { commonStyles } from "@/app/styles/commonStyles";
 import BackButton from "@/app/components/backButton";
+import CurrentTotalSmall from "@/app/components/currentTotalSmall";
 
 const OldSchoolInterface = () => {
   const [amount, setAmount] = useState(""); // State to manage the large amount
@@ -46,10 +47,8 @@ const OldSchoolInterface = () => {
   return (
     <SafeAreaView style={styles.container}>
       <BackButton />
-      <View style={styles.totalBox}>
-        <Text style={[styles.totalText, commonStyles.lightGrey]}>Betrag:</Text>
-        <Text style={styles.totalText}>{currentTotal.toFixed(2)}€</Text>
-      </View>
+      {/* Current Total */}
+      <CurrentTotalSmall currentTotal={currentTotal} />
 
       {/* Editable Large Amount */}
       <View style={styles.largeAmountContainer}>
@@ -134,23 +133,23 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "500",
     color: "#afafaf",
-    fontFamily: "Roboto-Medium",
+    fontFamily: "Roboto",
   },
   smallAmount: {
     fontSize: 20,
     fontWeight: "500",
     color: "#afafaf",
-    fontFamily: "Roboto-Medium",
+    fontFamily: "Roboto",
   },
   largeAmountContainer: {
     alignItems: "center",
-    marginVertical: 20,
+    marginVertical: 40,
   },
   largeAmount: {
     fontSize: 60,
     fontWeight: "600",
     color: "#1f1f1f",
-    fontFamily: "Roboto-Bold",
+    fontFamily: "Roboto",
   },
   keyboard: {
     width: "80%",
@@ -173,7 +172,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: "#1d1b20",
-    fontFamily: "Roboto-Regular",
+    fontFamily: "Roboto",
   },
   enterKey: {
     backgroundColor: "#ece6f0",
