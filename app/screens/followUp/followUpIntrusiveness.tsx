@@ -28,11 +28,11 @@ export default function FollowUpComplexity() {
 
       <View style={styles.optionsContainer}>
         {[
-          { label: "Sehr aufdringlich", value: 5 },
-          { label: "", value: 4 },
-          { label: "", value: 3 },
-          { label: "", value: 2 },
           { label: "Nicht aufdringlich", value: 1 },
+          { label: "", value: 2 },
+          { label: "", value: 3 },
+          { label: "", value: 4 },
+          { label: "Sehr aufdringlich", value: 5 },
         ].map((option) => (
           <Pressable
             key={option.value}
