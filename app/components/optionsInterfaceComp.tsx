@@ -17,24 +17,16 @@ const tipOptions = [
   { label: "2.00€", value: 2.0 },
 ];
 
-export default function OptionsInterfaceComp() {
-  const navigation = useNavigation<ScreenNavigationProp>();
-  const { currentTotal, markCompleted, setTippedTotal, setTipSelectionLog } =
-    useScenarioStore();
+interface RoundingInterfaceCompProps {
+  currentTotal: number; // Pass currentTotal as a prop
+  onTipSelect: (value: number) => void; // Pass up selected tip
+}
 
+const OptionsInterfaceComp: React.FC<RoundingInterfaceCompProps> = ({
+  currentTotal,
+}) => {
   const handleTipSelect = (value: number) => {
     var currentTippedTotal = currentTotal + value;
-    setTippedTotal(currentTippedTotal); // Update Zustand store with the new total
-    setTipSelectionLog(
-      "TippedTotal, " +
-        currentTippedTotal +
-        ", TipPercentage, " +
-        ((currentTippedTotal - currentTotal) / currentTotal).toFixed(2) +
-        ", "
-    ); // save data for csv
-    //console.log("TippedTotal: " + currentTippedTotal + ", "); // log for debugging
-    markCompleted(); // Update Zustand store
-    navigation.navigate("Payment"); // Direct transition
   };
   return (
     <SafeAreaView style={[commonStyles.fullScreen, styles.container]}>
@@ -78,7 +70,7 @@ export default function OptionsInterfaceComp() {
       </View>
     </SafeAreaView>
   );
-}
+};
 const styles = StyleSheet.create({
   container: {
     padding: 16,
@@ -134,3 +126,4 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
 });
+export default OptionsInterfaceComp;

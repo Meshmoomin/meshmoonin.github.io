@@ -8,12 +8,13 @@ import { useScenarioStore } from "@/app/store/store";
 import { commonStyles } from "@/app/styles/commonStyles";
 import BackButton from "@/app/components/backButton";
 import RoundingInterfaceComp from "@/app/components/roundingInterfaceComp";
-import OpptionsInterfaceComp from "@/app/components/optionsInterfaceComp";
+import OptionsInterfaceComp from "@/app/components/optionsInterfaceComp";
 
 export default function UniversalScenario() {
   const navigation = useNavigation<ScreenNavigationProp>();
   const { currentTotal, markCompleted, setTippedTotal, setTipSelectionLog } =
     useScenarioStore();
+  var scenario: number = 0;
 
   const handleTipSelect = (value: number) => {
     var currentTippedTotal = currentTotal + value;
@@ -30,18 +31,33 @@ export default function UniversalScenario() {
     navigation.navigate("Payment"); // Direct transition
   };
 
-  var selectedScenario = (
+  const optionsInterface = (
+    <OptionsInterfaceComp
+      currentTotal={currentTotal}
+      onTipSelect={handleTipSelect}
+    />
+  );
+  const roundingInterface = (
     <RoundingInterfaceComp
       currentTotal={currentTotal}
       onTipSelect={handleTipSelect}
     />
   );
+  var selectedScenario = null;
+  if (scenario === 0) {
+    selectedScenario = optionsInterface;
+  } else if (scenario === 1) {
+    selectedScenario = roundingInterface;
+  } else {
+    selectedScenario = <Text> Scenario not found</Text>;
+  }
 
   return (
     <SafeAreaView style={[commonStyles.fullScreen, styles.container]}>
       {/* Back Button */}
       <BackButton />
       {/* Inserted Scenario */}
+      {selectedScenario}
     </SafeAreaView>
   );
 }
