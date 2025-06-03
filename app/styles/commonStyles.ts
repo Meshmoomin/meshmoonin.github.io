@@ -82,6 +82,21 @@ export const commonStyles = StyleSheet.create({
     fontWeight: "600",
     color: "#4F4F4F",
   },
+  confirmButtonText: {
+    fontSize: 45,
+    fontFamily: "Roboto",
+    lineHeight: 52,
+    textAlign: "center",
+    color: "#4F4F4F",
+  },
+  confirmButtonPressable: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    backgroundColor: "#ece6f0",
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   fullScreen: {
     flex: 1,
     backgroundColor: "#fff",

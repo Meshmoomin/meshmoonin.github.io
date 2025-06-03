@@ -4,20 +4,17 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/types/navigation";
 
-import AdminScreen from "@/app/screens/AdminScreen";
 import ScenarioRouter from "@/app/components/ScenarioRouter";
-import FollowUpGeneral from "@/app/screens/followUp/followUpGeneral";
-import FollowUpComplexity from "@/app/screens/followUp/followUpComplexity";
-import FollowUpIntrusiveness from "@/app/screens/followUp/followUpIntrusiveness";
 import TerminalView from "./app/components/TerminalView";
 import PaymentScreenNew from "@/app/screens/PaymentScreen";
 import TrialComplete from "@/app/screens/TrialComplete";
-import TotalEntry from "@/app/screens/TotalEntry";
 import SurveyComplete from "@/app/screens/SurveyComplete";
 import { View } from "react-native";
 import { initLogger } from "@/app/logger/logger";
 import { useEffect } from "react";
 import { useScenarioStore } from "./app/store/store";
+import UniversalScenario from "./app/screens/scenarios/universalScenario";
+import SystemUsabilityScale from "./app/screens/followUp/systemUsabilityScale";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -33,36 +30,18 @@ export default function App() {
         <TerminalView>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen
-              name="Admin"
-              component={AdminScreen}
-              options={{ headerShown: false, title: "Admin Controls" }}
+              name="UniversalScenario"
+              component={UniversalScenario}
+              options={{ headerShown: false, title: "Scenario" }}
             />
             <Stack.Screen
-              name="Scenario"
-              component={ScenarioRouter}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen name="FollowUpGeneral" component={FollowUpGeneral} />
-            <Stack.Screen
-              name="FollowUpComplexity"
-              component={FollowUpComplexity}
-              options={{}}
-            />
-            <Stack.Screen
-              name="FollowUpIntrusiveness"
-              component={FollowUpIntrusiveness}
+              name="SystemUsabilityScale"
+              component={SystemUsabilityScale}
+              options={{ headerShown: false, title: "Follow Up" }}
             />
             <Stack.Screen name="Payment" component={PaymentScreenNew} />
             <Stack.Screen name="TrialComplete" component={TrialComplete} />
-            <Stack.Screen name="totalEntry" component={TotalEntry} />
             <Stack.Screen name="SurveyComplete" component={SurveyComplete} />
-            {/* Add more screens as needed */}
-            {/* Example: <Stack.Screen name="AnotherScreen" component={AnotherScreen} /> */}
-            {/* <Stack.Screen name="FollowUpIntrusiveness" component={FollowUpIntrusiveness} /> */}
-            {/* Add more screens as needed */}
-            {/* Example: <Stack.Screen name="AnotherScreen" component={AnotherScreen} /> */}
-            {/* <Stack.Screen name="FollowUpIntrusiveness" component={FollowUpIntrusiveness} /> */}
-            {/* Add more FollowUp screens as needed */}
           </Stack.Navigator>
         </TerminalView>
       </NavigationContainer>

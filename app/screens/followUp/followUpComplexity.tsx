@@ -15,7 +15,7 @@ export default function FollowUpComplexity() {
 
   const handleOptionSelect = (value: number) => {
     setLogMessage("FollowUpComplexity, " + value + ", "); // save data for csv
-    navigation.navigate("FollowUpIntrusiveness");
+    //navigation.navigate("FollowUpIntrusiveness");
   };
 
   return (

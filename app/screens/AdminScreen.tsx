@@ -51,7 +51,7 @@ export default function AdminScreen() {
         scenarios[scenarioId - 1].name +
         ", "
     ); // Add Scenario to Log
-    navigation.navigate("totalEntry"); // No need to pass ID - Zustand manages it
+    //navigation.navigate("totalEntry"); // No need to pass ID - Zustand manages it
   };
 
   const handleNextTrial = () => {

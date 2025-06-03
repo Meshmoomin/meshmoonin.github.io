@@ -1,6 +1,23 @@
 import { create } from "zustand";
 import * as FileSystem from "expo-file-system";
 
+// Define your answer fields (string IDs)
+const initialAnswers: Record<string, string | number> = {
+  total: "NA",
+  intefaceScenario: "NA",
+  suggestionFormat: "NA",
+  tippedTotal: "NA",
+  tipPercentage: "NA",
+  FUGeneral: "NA",
+  q5: "NA",
+  q6: "NA",
+  q7: "NA",
+  q8: "NA",
+  q9: "NA",
+  q10: "NA",
+  // Add more as needed
+};
+
 type ScenarioState = {
   currentScenario: number;
   completedScenarios: number[];
@@ -11,6 +28,9 @@ type ScenarioState = {
   tippedTotal: number;
   nextParticipantID: number;
   useDummyID: boolean;
+  answers: Record<string, string | number>;
+  setAnswer: (id: string, value: string | number) => void;
+  resetAnswers: () => void;
 
   setUseDummyID: (value: boolean) => void;
   nextScenario: () => void;
@@ -39,6 +59,12 @@ export const useScenarioStore = create<ScenarioState>((set) => ({
   totalEntryLog: "no total entered",
   tipSelectionLog: "no tip selected",
   useDummyID: false,
+  answers: { ...initialAnswers },
+  setAnswer: (id, value) =>
+    set((state) => ({
+      answers: { ...state.answers, [id]: value },
+    })),
+  resetAnswers: () => set({ answers: { ...initialAnswers } }),
   setUseDummyID: (value) => set({ useDummyID: value }),
   incrementParticipantID: (id) => set({ nextParticipantID: id }),
   setTippedTotal: (total) => set({ tippedTotal: total }),

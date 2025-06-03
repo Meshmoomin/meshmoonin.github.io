@@ -22,7 +22,7 @@ export default function FollowUpGeneral() {
 
   const handleOptionSelect = (value: number) => {
     setLogMessage("FollowUpGeneral, " + value + ", "); // save data for csv
-    navigation.navigate("FollowUpComplexity");
+    //navigation.navigate("FollowUpComplexity");
   };
 
   const options = [

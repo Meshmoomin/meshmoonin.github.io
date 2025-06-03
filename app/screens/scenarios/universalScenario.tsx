@@ -26,11 +26,12 @@ export default function UniversalScenario() {
         ((currentTippedTotal - currentTotal) / currentTotal).toFixed(2) +
         ", "
     ); // save data for csv
-    //console.log("TippedTotal: " + currentTippedTotal + ", "); // log for debugging
+    console.log("TippedTotal: " + currentTippedTotal + ", "); // log for debugging
     markCompleted(); // Update Zustand store
     navigation.navigate("Payment"); // Direct transition
   };
 
+  //Define specific scenario interfaces
   const optionsInterface = (
     <OptionsInterfaceComp
       currentTotal={currentTotal}
@@ -43,6 +44,9 @@ export default function UniversalScenario() {
       onTipSelect={handleTipSelect}
     />
   );
+
+  // **** Other Scenarios can be added here ****
+
   var selectedScenario = null;
   if (scenario === 0) {
     selectedScenario = optionsInterface;
@@ -56,6 +60,7 @@ export default function UniversalScenario() {
     <SafeAreaView style={[commonStyles.fullScreen, styles.container]}>
       {/* Back Button */}
       <BackButton />
+
       {/* Inserted Scenario */}
       {selectedScenario}
     </SafeAreaView>

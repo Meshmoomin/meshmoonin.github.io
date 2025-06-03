@@ -30,7 +30,7 @@ const PaymentScreenNew = () => {
   );
 
   const navigateToFollowUp = () => {
-    navigation.navigate("FollowUpGeneral");
+    navigation.navigate("SystemUsabilityScale");
   };
   const { tippedTotal, totalEntryLog, tipSelectionLog, setLogMessage } =
     useScenarioStore();

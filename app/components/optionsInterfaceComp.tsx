@@ -24,9 +24,10 @@ interface RoundingInterfaceCompProps {
 
 const OptionsInterfaceComp: React.FC<RoundingInterfaceCompProps> = ({
   currentTotal,
+  onTipSelect,
 }) => {
   const handleTipSelect = (value: number) => {
-    var currentTippedTotal = currentTotal + value;
+    onTipSelect(value); // Call the passed function to handle tip selection
   };
   return (
     <SafeAreaView style={[commonStyles.fullScreen, styles.container]}>
@@ -49,7 +50,7 @@ const OptionsInterfaceComp: React.FC<RoundingInterfaceCompProps> = ({
                   commonStyles.shadowBox,
                   pressed && commonStyles.buttonPressed,
                 ]}
-                onPress={() => handleTipSelect(option.value)} // Add your handler here
+                onPress={() => handleTipSelect(option.value)}
               >
                 <Text style={styles.tipText}>{option.label}</Text>
               </Pressable>
