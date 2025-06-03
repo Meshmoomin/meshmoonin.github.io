@@ -11,7 +11,7 @@ export default function SystemUsabilityScale() {
   const navigation = useNavigation<ScreenNavigationProp>();
   useCustomBackHandler(() => true);
 
-  const { setLogMessage } = useScenarioStore();
+  const { setLogMessage, setAnswer } = useScenarioStore();
 
   const susQuestions = [
     {
@@ -52,7 +52,7 @@ export default function SystemUsabilityScale() {
 
   const handleRadioSelect = (questionId: number, value: number) => {
     setAnswers((prev) => ({ ...prev, [questionId]: value }));
-    setLogMessage(`FollowUpGeneral, Q${questionId}, ${value}, `);
+    setAnswer("SUS" + questionId, value); // Save answer in Zustand store
   };
 
   return (
