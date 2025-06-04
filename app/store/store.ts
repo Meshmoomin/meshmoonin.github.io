@@ -8,9 +8,6 @@ const initialAnswers: Record<string, string | number> = {
   suggestionFormat: "NA",
   tippedTotal: "NA",
   tipPercentage: "NA",
-  FUGeneral: "NA",
-  SUS1: "NA",
-  SUS2: "NA",
   // Add more as needed
 };
 

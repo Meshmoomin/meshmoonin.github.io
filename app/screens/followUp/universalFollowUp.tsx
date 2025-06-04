@@ -7,43 +7,21 @@ import { useScenarioStore } from "@/app/store/store";
 import { useCustomBackHandler } from "@/app/hooks/backHandler";
 import { commonStyles } from "@/app/styles/commonStyles";
 
-export default function SystemUsabilityScale() {
+export default function UniversalFollowUp() {
   const navigation = useNavigation<ScreenNavigationProp>();
   useCustomBackHandler(() => true);
 
   const { setLogMessage, setAnswer } = useScenarioStore();
 
-  const susQuestions = [
+  const uniQuestions = [
     {
-      id: "SUS1",
-      text: "Ich kann mir sehr gut vorstellen, das System regelmäßig zu nutzen.",
+      id: "UNI1",
+      text: "Das Trinkgeld Interface war aufdringlich.",
     },
-    { id: "SUS2", text: "Ich finde das System unnötig komplex." },
-    { id: "SUS3", text: "Ich finde das System einfach zu nutzen." },
+    { id: "UNI2", text: "Das Trinkgeld Interface war einfach zu verstehen." },
     {
-      id: "SUS4",
-      text: "Ich denke, dass ich technischen Support brauchen würde, um das System zu nutzen.",
-    },
-    {
-      id: "SUS5",
-      text: "Ich finde, dass die verschiedenen Funktionen des Systems gut integriert sind.",
-    },
-    {
-      id: "SUS6",
-      text: "Ich finde, dass es im System zu viele Inkonsistenzen gibt.",
-    },
-    {
-      id: "SUS7",
-      text: "Ich kann mir vorstellen, dass die meisten Leute das System schnell zu beherrschen lernen.",
-    },
-    { id: "SUS8", text: "Ich empfinde die Bedienung als sehr umständlich." },
-    {
-      id: "SUS9",
-      text: "Ich habe mich bei der Nutzung des Systems sehr sicher gefühlt.",
-    },
-    {
-      id: "SUS10",
-      text: "Ich musste eine Menge Dinge lernen, bevor ich mit dem System arbeiten konnte.",
+      id: "UNI3",
+      text: "Es war einfach ein Trinkgeld auszuwählen mit dem ich zufrieden bin.",
     },
   ];
 
@@ -57,7 +35,7 @@ export default function SystemUsabilityScale() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {susQuestions.map((question) => (
+      {uniQuestions.map((question) => (
         <View key={question.id} style={styles.questionBlock}>
           <Text style={styles.questionText}>{question.text}</Text>
           {/* Labels above the radio row */}
@@ -104,7 +82,7 @@ export default function SystemUsabilityScale() {
           commonStyles.confirmButtonGreen,
           pressed && commonStyles.buttonPressed,
         ]}
-        onPress={() => navigation.navigate("UserExperienceQuestionnaire")}
+        onPress={() => navigation.navigate("SystemUsabilityScale")}
       >
         <Text style={commonStyles.confirmButtonText}>Weiter</Text>
       </Pressable>

@@ -8,6 +8,7 @@ export type RootStackParamList = {
   UniversalScenario: undefined;
   SystemUsabilityScale: undefined;
   UserExperienceQuestionnaire: undefined;
+  UniversalFollowUp: undefined;
 };
 
 // Type for useNavigation hook

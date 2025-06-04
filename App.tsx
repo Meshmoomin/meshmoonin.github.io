@@ -16,6 +16,7 @@ import { useScenarioStore } from "./app/store/store";
 import UniversalScenario from "./app/screens/scenarios/universalScenario";
 import SystemUsabilityScale from "./app/screens/followUp/systemUsabilityScale";
 import UserExperienceQuestionnaire from "./app/screens/followUp/userExperienceQuestionnaire";
+import UniversalFollowUp from "./app/screens/followUp/universalFollowUp";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -42,6 +43,11 @@ export default function App() {
               name="UserExperienceQuestionnaire"
               component={UserExperienceQuestionnaire}
             />
+            <Stack.Screen
+              name="UniversalFollowUp"
+              component={UniversalFollowUp}
+            />
+
             <Stack.Screen name="Payment" component={PaymentScreenNew} />
             <Stack.Screen name="TrialComplete" component={TrialComplete} />
             <Stack.Screen name="SurveyComplete" component={SurveyComplete} />
