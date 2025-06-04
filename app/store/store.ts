@@ -11,10 +11,6 @@ const initialAnswers: Record<string, string | number> = {
   FUGeneral: "NA",
   SUS1: "NA",
   SUS2: "NA",
-  q7: "NA",
-  q8: "NA",
-  q9: "NA",
-  q10: "NA",
   // Add more as needed
 };
 

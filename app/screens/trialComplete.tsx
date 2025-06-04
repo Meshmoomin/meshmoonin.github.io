@@ -74,22 +74,10 @@ export default function TrialComplete() {
           marginBottom: 16,
         }}
       >
-        <Text
-          style={{
-            fontWeight: "bold",
-            marginBottom: 4,
-            color: "#4F4F4F",
-          }}
-        >
+        <Text style={{ fontWeight: "bold", marginBottom: 4, color: "#4F4F4F" }}>
           Antworten-Vorschau:
         </Text>
-        <Text
-          style={{
-            fontFamily: "Roboto",
-            fontSize: 14,
-            color: "#4F4F4F",
-          }}
-        >
+        <Text style={{ fontFamily: "Roboto", fontSize: 14, color: "#4F4F4F" }}>
           {JSON.stringify(answers, null, 2)}
         </Text>
       </View>

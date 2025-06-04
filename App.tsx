@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import { useScenarioStore } from "./app/store/store";
 import UniversalScenario from "./app/screens/scenarios/universalScenario";
 import SystemUsabilityScale from "./app/screens/followUp/systemUsabilityScale";
+import UserExperienceQuestionnaire from "./app/screens/followUp/userExperienceQuestionnaire";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -32,12 +33,14 @@ export default function App() {
             <Stack.Screen
               name="UniversalScenario"
               component={UniversalScenario}
-              options={{ headerShown: false, title: "Scenario" }}
             />
             <Stack.Screen
               name="SystemUsabilityScale"
               component={SystemUsabilityScale}
-              options={{ headerShown: false, title: "Follow Up" }}
+            />
+            <Stack.Screen
+              name="UserExperienceQuestionnaire"
+              component={UserExperienceQuestionnaire}
             />
             <Stack.Screen name="Payment" component={PaymentScreenNew} />
             <Stack.Screen name="TrialComplete" component={TrialComplete} />

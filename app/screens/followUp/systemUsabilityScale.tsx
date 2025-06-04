@@ -104,7 +104,7 @@ export default function SystemUsabilityScale() {
           commonStyles.confirmButtonGreen,
           pressed && commonStyles.buttonPressed,
         ]}
-        onPress={() => navigation.navigate("TrialComplete")}
+        onPress={() => navigation.navigate("UserExperienceQuestionnaire")}
       >
         <Text style={commonStyles.confirmButtonText}>Weiter</Text>
       </Pressable>

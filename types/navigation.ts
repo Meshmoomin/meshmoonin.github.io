@@ -7,6 +7,7 @@ export type RootStackParamList = {
   SurveyComplete: undefined;
   UniversalScenario: undefined;
   SystemUsabilityScale: undefined;
+  UserExperienceQuestionnaire: undefined;
 };
 
 // Type for useNavigation hook
