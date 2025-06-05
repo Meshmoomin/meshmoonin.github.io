@@ -82,7 +82,7 @@ export default function UniversalFollowUp() {
           commonStyles.confirmButtonGreen,
           pressed && commonStyles.buttonPressed,
         ]}
-        onPress={() => navigation.navigate("SystemUsabilityScale")}
+        onPress={() => navigation.navigate("TrialComplete")}
       >
         <Text style={commonStyles.confirmButtonText}>Weiter</Text>
       </Pressable>

@@ -2,8 +2,12 @@ import React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { useScenarioStore } from "@/app/store/store";
 
-const CurrentTotalLarge = () => {
-  const currentTotal = useScenarioStore((state) => state.currentTotal);
+interface CurrentTotalLargeProps {
+  currentTotal: number;
+}
+const CurrentTotalLarge: React.FC<CurrentTotalLargeProps> = ({
+  currentTotal,
+}) => {
   return (
     <View style={styles.currentAmountSection}>
       <Text style={styles.totalLabelText}>Betrag:</Text>

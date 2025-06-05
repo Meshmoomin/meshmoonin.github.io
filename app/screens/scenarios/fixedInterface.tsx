@@ -44,7 +44,7 @@ export default function FixedInterface() {
       {/* Main Content */}
       <View style={styles.centerFlexColumn}>
         {/* Large Current Total Display */}
-        <CurrentTotalLarge />
+        <CurrentTotalLarge currentTotal={currentTotal} />
 
         {/* Tip Options */}
         <View style={styles.tipOptionsSection}>

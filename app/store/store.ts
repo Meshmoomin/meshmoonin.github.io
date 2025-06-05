@@ -3,9 +3,9 @@ import * as FileSystem from "expo-file-system";
 
 // Define your answer fields (string IDs)
 const initialAnswers: Record<string, string | number> = {
-  total: "NA",
-  intefaceScenario: "NA",
+  interfaceScenario: "NA",
   suggestionFormat: "NA",
+  total: "NA",
   tippedTotal: "NA",
   tipPercentage: "NA",
   // Add more as needed
@@ -22,12 +22,18 @@ type ScenarioState = {
   nextParticipantID: number;
   useDummyID: boolean;
   answers: Record<string, string | number>;
+  scenarioFLow: { interfaceType: string; format: string; total: number }[];
   setAnswer: (id: string, value: string | number) => void;
   resetAnswers: () => void;
+  setParticipantID: (id: number) => void;
+  storeScenarioFlow: (
+    flow: { interfaceType: string; format: string; total: number }[]
+  ) => void;
 
   setUseDummyID: (value: boolean) => void;
   nextScenario: () => void;
   setScenario: (id: number) => void;
+
   markCompleted: () => void;
   incrementParticipantID: (id: number) => void;
   setTotal: (total: number) => void;
@@ -43,7 +49,7 @@ type ScenarioState = {
 const LOG_FILE = FileSystem.documentDirectory + "trials.csv";
 
 export const useScenarioStore = create<ScenarioState>((set) => ({
-  currentScenario: 1,
+  currentScenario: 0,
   completedScenarios: [],
   currentTotal: 0,
   tippedTotal: 0,
@@ -53,12 +59,17 @@ export const useScenarioStore = create<ScenarioState>((set) => ({
   tipSelectionLog: "no tip selected",
   useDummyID: false,
   answers: { ...initialAnswers },
+  scenarioFLow: [],
+  storeScenarioFlow(flow) {
+    set({ scenarioFLow: flow });
+  },
   setAnswer: (id, value) =>
     set((state) => ({
       answers: { ...state.answers, [id]: value },
     })),
   resetAnswers: () => set({ answers: { ...initialAnswers } }),
   setUseDummyID: (value) => set({ useDummyID: value }),
+  setParticipantID: (id) => set({ nextParticipantID: id }),
   incrementParticipantID: (id) => set({ nextParticipantID: id }),
   setTippedTotal: (total) => set({ tippedTotal: total }),
   setLogMessage: (message) =>
@@ -68,7 +79,7 @@ export const useScenarioStore = create<ScenarioState>((set) => ({
   setTotal: (total) => set({ currentTotal: total }),
   nextScenario: () =>
     set((state) => ({
-      currentScenario: (state.currentScenario % 4) + 1, // Cycles 1-4
+      currentScenario: state.currentScenario + 1,
     })),
   setScenario: (id) => set({ currentScenario: id }),
   markCompleted: () =>

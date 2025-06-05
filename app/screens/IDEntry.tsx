@@ -7,18 +7,81 @@ import { useScenarioStore } from "@/app/store/store";
 import { commonStyles } from "@/app/styles/commonStyles";
 import BackButton from "../components/backButton";
 
+// Possible values
+const INTERFACE_TYPES = ["options", "rounding"] as const;
+//const FORMATS = ["sumRound", "sumFixed", "Fixed", "Percent"] as const; Disabled for Debugging TODO reenable
+const FORMATS = ["Fixed"] as const; //Reduced for faster Debugging
+const TOTALS = [5.15, 10.3, 14.55] as const;
+
+// Helper for all combinations for a given interface type
+function getCombinationsForInterface(interfaceType: string) {
+  const combos: { interfaceType: string; format: string; total: number }[] = [];
+  for (const format of FORMATS) {
+    for (const total of TOTALS) {
+      combos.push({ interfaceType, format, total });
+    }
+  }
+  return combos;
+}
+
+// Shuffle utility
+function shuffle<T>(array: T[]): T[] {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 const IDEntry = () => {
   const [amount, setAmount] = useState(""); // State to manage the large amount
   const navigation = useNavigation<ScreenNavigationProp>();
-  const { setTotal, setTotalEntryLog } = useScenarioStore();
+  const { setParticipantID, storeScenarioFlow } = useScenarioStore();
+
+  const generateScenarioOrder = (participantId: number) => {
+    const followUpPlaceholder = {
+      interfaceType: "followUp",
+      format: "placeholder",
+      total: 0,
+    };
+    const scenarioEndPlaceholder = {
+      interfaceType: "surveyEnd",
+      format: "placeholder",
+      total: 0,
+    };
+
+    // Generate Blocks with shuffled order
+    const optionsOrder = shuffle(getCombinationsForInterface("options"));
+    const roundingOrder = shuffle(getCombinationsForInterface("rounding"));
+
+    // Alternate which block comes first based on participant ID (even/odd)
+    const isEven = participantId % 2 === 0;
+    const fullOrder = isEven
+      ? [
+          ...optionsOrder,
+          followUpPlaceholder,
+          ...roundingOrder,
+          followUpPlaceholder,
+          scenarioEndPlaceholder,
+        ]
+      : [
+          ...roundingOrder,
+          followUpPlaceholder,
+          ...optionsOrder,
+          followUpPlaceholder,
+          scenarioEndPlaceholder,
+        ];
+    return fullOrder;
+  };
 
   const handleEnterPress = () => {
     // Handle the Enter key press
     if (amount) {
-      setTotal(parseFloat(amount)); // Save the amount to the store
-      /* console.log("Total amount set to:", amount); // Debugging line */ // Debug, remove in production
-      setTotalEntryLog("Total, " + amount + ", "); // Debugging line
-      navigation.navigate("UniversalScenario"); // Navigate to the next screen
+      setParticipantID(parseFloat(amount)); // Save the amount to the store
+      const scenarioOrder = generateScenarioOrder(parseFloat(amount));
+      storeScenarioFlow(scenarioOrder); // Store the scenario flow in Zustand
+      navigation.navigate("FlowController"); // Navigate to the next screen
     }
   };
 
@@ -35,10 +98,12 @@ const IDEntry = () => {
   return (
     <SafeAreaView style={styles.container}>
       <BackButton />
-
+      <View style={styles.IDEntryLabel}>
+        <Text style={styles.label}>Teilnahme ID eingeben:</Text>
+      </View>
       {/* Editable Large Amount */}
       <View style={styles.largeAmountContainer}>
-        <Text style={styles.largeAmount}>{amount || "00"}</Text>
+        <Text style={styles.largeAmount}>{amount || "-"}</Text>
       </View>
 
       {/* On-Screen Keyboard */}
@@ -91,6 +156,11 @@ const styles = StyleSheet.create({
     alignContent: "center",
     justifyContent: "center",
   },
+  IDEntryLabel: {
+    alignItems: "center",
+    marginBottom: 20,
+  },
+
   topAmountContainer: {
     flexDirection: "row",
     justifyContent: "space-between",

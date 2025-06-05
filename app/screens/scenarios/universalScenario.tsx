@@ -22,8 +22,13 @@ export default function UniversalScenario({
   total,
 }: UniversalScenarioProps) {
   const navigation = useNavigation<ScreenNavigationProp>();
-  const { markCompleted, setTippedTotal, setTipSelectionLog, setAnswer } =
-    useScenarioStore();
+  const {
+    currentScenario,
+    markCompleted,
+    setTippedTotal,
+    setAnswer,
+    nextScenario,
+  } = useScenarioStore();
 
   // Use the passed-in total instead of currentTotal from store
   const currentTotal = total;
@@ -41,23 +46,21 @@ export default function UniversalScenario({
     const tipPercentage = (currentTippedTotal - currentTotal) / currentTotal;
 
     setTippedTotal(currentTippedTotal);
-    setTipSelectionLog(
-      "TippedTotal, " +
-        currentTippedTotal +
-        ", TipPercentage, " +
-        tipPercentage.toFixed(2) +
-        ", "
-    );
 
     // --- Answer tracking ---
     setAnswer("interfaceScenario", scenarioName);
     setAnswer("total", currentTotal);
     setAnswer("tippedTotal", currentTippedTotal);
     setAnswer("tipPercentage", tipPercentage);
+    setAnswer("suggestionFormat", format);
+    setAnswer("currentTrial", currentScenario);
+
     // setAnswer("optionFormat", ...); // implement later
 
     markCompleted();
-    navigation.navigate("Payment");
+    //navigation.navigate("Payment"); //disabled for testing TODO reenable
+    nextScenario();
+    navigation.navigate("UniversalFollowUp"); //Shortcut for testing only
   };
 
   // Select interface based on interfaceType

@@ -10,6 +10,7 @@ export type RootStackParamList = {
   UserExperienceQuestionnaire: undefined;
   UniversalFollowUp: undefined;
   IDEntry: undefined;
+  FlowController: undefined;
 };
 
 // Type for useNavigation hook

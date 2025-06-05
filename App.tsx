@@ -5,14 +5,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/types/navigation";
 
 import ScenarioRouter from "@/app/components/ScenarioRouter";
+import ScenarioFlowController from "@/app/components/ScenarioFlowController";
 import TerminalView from "./app/components/TerminalView";
 import PaymentScreenNew from "@/app/screens/PaymentScreen";
 import TrialComplete from "@/app/screens/TrialComplete";
 import SurveyComplete from "@/app/screens/SurveyComplete";
 import IDEntry from "@/app/screens/IDEntry";
 import { View } from "react-native";
-import { initLogger } from "@/app/logger/logger";
-import { useEffect } from "react";
 import { useScenarioStore } from "./app/store/store";
 import UniversalScenario from "./app/screens/scenarios/universalScenario";
 import SystemUsabilityScale from "./app/screens/followUp/systemUsabilityScale";
@@ -33,6 +32,10 @@ export default function App() {
         <TerminalView>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="IDEntry" component={IDEntry} />
+            <Stack.Screen
+              name="FlowController"
+              component={ScenarioFlowController}
+            />
             <Stack.Screen name="UniversalScenario" component={ScenarioRouter} />
             <Stack.Screen
               name="SystemUsabilityScale"

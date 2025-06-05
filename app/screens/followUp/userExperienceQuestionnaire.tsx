@@ -10,7 +10,7 @@ export default function UserExperienceQuestionnaire() {
   const navigation = useNavigation<ScreenNavigationProp>();
   useCustomBackHandler(() => true);
 
-  const { setAnswer } = useScenarioStore();
+  const { setAnswer, nextScenario } = useScenarioStore();
 
   // Each question has custom left/right labels
   const ueQuestions = [
@@ -67,6 +67,12 @@ export default function UserExperienceQuestionnaire() {
   const handleRadioSelect = (questionId: string, value: number) => {
     setAnswers((prev) => ({ ...prev, [questionId]: value }));
     setAnswer(questionId, value); // Save answer in Zustand store
+  };
+
+  const handleComplete = () => {
+    nextScenario();
+    // Navigate to next screen
+    navigation.navigate("FlowController");
   };
 
   return (
@@ -130,7 +136,7 @@ export default function UserExperienceQuestionnaire() {
           commonStyles.confirmButtonGreen,
           pressed && commonStyles.buttonPressed,
         ]}
-        onPress={() => navigation.navigate("TrialComplete")}
+        onPress={() => handleComplete()}
       >
         <Text style={commonStyles.confirmButtonText}>Weiter</Text>
       </Pressable>

@@ -44,7 +44,7 @@ export default function PercentInterface() {
       {/* Main Content */}
       <View style={styles.centerFlexColumn}>
         {/* Aktueller Betrag */}
-        <CurrentTotalLarge />
+        <CurrentTotalLarge currentTotal={currentTotal} />
 
         {/* Tip Options */}
         <View style={styles.tipOptionsSection}>

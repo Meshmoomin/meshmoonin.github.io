@@ -28,20 +28,11 @@ export default function TrialComplete() {
   };
 
   const handleComplete = () => {
-    /* setLogMessage("TrialComplete, \n");
-    storeFile(); // Save the log message to the CSV file
-    console.log(logMessage); */
-
-    console.log(answers); // Debugging only, should be removed in production
-
-    // Debugging only, should be removed in production, will be saved to csv file
-    resetLogMessage(); // Reset the log message for the next trial
-    navigation.navigate("UniversalScenario");
+    navigation.navigate("FlowController");
   };
 
   const handleCancel = () => {
-    resetLogMessage();
-    navigation.navigate("UniversalScenario");
+    navigation.navigate("FlowController");
   };
 
   const appendCSV = () => {
