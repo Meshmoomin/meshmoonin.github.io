@@ -13,7 +13,7 @@ import SurveyComplete from "@/app/screens/SurveyComplete";
 import IDEntry from "@/app/screens/IDEntry";
 import { View } from "react-native";
 import { useScenarioStore } from "./app/store/store";
-import UniversalScenario from "./app/screens/scenarios/universalScenario";
+import ScenarioDescription from "./app/screens/scenarios/scenarioDescription";
 import SystemUsabilityScale from "./app/screens/followUp/systemUsabilityScale";
 import UserExperienceQuestionnaire from "./app/screens/followUp/userExperienceQuestionnaire";
 import UniversalFollowUp from "./app/screens/followUp/universalFollowUp";

@@ -3,6 +3,7 @@ import { useScenarioStore } from "@/app/store/store";
 import ScenarioRouter from "./ScenarioRouter";
 import SystemUsabilityScale from "@/app/screens/followUp/systemUsabilityScale";
 import SurveyComplete from "@/app/screens/SurveyComplete";
+import ScenarioDescription from "@/app/screens/scenarios/scenarioDescription";
 
 export default function ScenarioFlowController() {
   const { currentScenario, scenarioFLow } = useScenarioStore();
@@ -21,6 +22,9 @@ export default function ScenarioFlowController() {
   }
   if (scenarioParams.interfaceType === "surveyEnd") {
     return <SurveyComplete />;
+  }
+  if (scenarioParams.interfaceType === "description") {
+    return <ScenarioDescription total={scenarioParams.total} />;
   }
   // Default: show scenario
   return <ScenarioRouter />;

@@ -11,6 +11,7 @@ export type RootStackParamList = {
   UniversalFollowUp: undefined;
   IDEntry: undefined;
   FlowController: undefined;
+  ScenarioDescription: undefined;
 };
 
 // Type for useNavigation hook

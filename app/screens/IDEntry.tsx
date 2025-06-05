@@ -50,25 +50,37 @@ const IDEntry = () => {
       format: "placeholder",
       total: 0,
     };
+    const descriptionStep = (passedTotal: number) => ({
+      interfaceType: "description",
+      format: "placeholder",
+      total: passedTotal,
+    });
 
     // Generate Blocks with shuffled order
     const optionsOrder = shuffle(getCombinationsForInterface("options"));
     const roundingOrder = shuffle(getCombinationsForInterface("rounding"));
 
+    // Insert a description step before each scenario
+    const withDescriptions = (order: typeof optionsOrder) =>
+      order.flatMap((scenario) => [descriptionStep(scenario.total), scenario]);
+
+    const optionsWithDescriptions = withDescriptions(optionsOrder);
+    const roundingWithDescriptions = withDescriptions(roundingOrder);
+
     // Alternate which block comes first based on participant ID (even/odd)
     const isEven = participantId % 2 === 0;
     const fullOrder = isEven
       ? [
-          ...optionsOrder,
+          ...optionsWithDescriptions,
           followUpPlaceholder,
-          ...roundingOrder,
+          ...roundingWithDescriptions,
           followUpPlaceholder,
           scenarioEndPlaceholder,
         ]
       : [
-          ...roundingOrder,
+          ...roundingWithDescriptions,
           followUpPlaceholder,
-          ...optionsOrder,
+          ...optionsWithDescriptions,
           followUpPlaceholder,
           scenarioEndPlaceholder,
         ];
