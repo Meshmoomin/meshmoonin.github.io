@@ -9,6 +9,7 @@ import TerminalView from "./app/components/TerminalView";
 import PaymentScreenNew from "@/app/screens/PaymentScreen";
 import TrialComplete from "@/app/screens/TrialComplete";
 import SurveyComplete from "@/app/screens/SurveyComplete";
+import IDEntry from "@/app/screens/IDEntry";
 import { View } from "react-native";
 import { initLogger } from "@/app/logger/logger";
 import { useEffect } from "react";
@@ -31,10 +32,8 @@ export default function App() {
       <NavigationContainer>
         <TerminalView>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen
-              name="UniversalScenario"
-              component={UniversalScenario}
-            />
+            <Stack.Screen name="IDEntry" component={IDEntry} />
+            <Stack.Screen name="UniversalScenario" component={ScenarioRouter} />
             <Stack.Screen
               name="SystemUsabilityScale"
               component={SystemUsabilityScale}

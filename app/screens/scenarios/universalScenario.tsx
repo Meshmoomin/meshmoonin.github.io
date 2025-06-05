@@ -10,58 +10,79 @@ import BackButton from "@/app/components/backButton";
 import RoundingInterfaceComp from "@/app/components/roundingInterfaceComp";
 import OptionsInterfaceComp from "@/app/components/optionsInterfaceComp";
 
-export default function UniversalScenario() {
+interface UniversalScenarioProps {
+  interfaceType: string; // e.g., "options" or "rounding"
+  format: string; // e.g., "sumRound", "sumFixed", "Fixed", "Percent"
+  total: number; // e.g., 5.15, 10.3, 16.55
+}
+
+export default function UniversalScenario({
+  interfaceType,
+  format,
+  total,
+}: UniversalScenarioProps) {
   const navigation = useNavigation<ScreenNavigationProp>();
-  const { currentTotal, markCompleted, setTippedTotal, setTipSelectionLog } =
+  const { markCompleted, setTippedTotal, setTipSelectionLog, setAnswer } =
     useScenarioStore();
-  var scenario: number = 0;
+
+  // Use the passed-in total instead of currentTotal from store
+  const currentTotal = total;
+
+  // Use the passed-in interfaceType to select scenario
+  const scenarioName =
+    interfaceType === "options"
+      ? "Options"
+      : interfaceType === "rounding"
+        ? "Rounding"
+        : "Unknown";
 
   const handleTipSelect = (value: number) => {
-    var currentTippedTotal = currentTotal + value;
-    setTippedTotal(currentTippedTotal); // Update Zustand store with the new total
+    const currentTippedTotal = currentTotal + value;
+    const tipPercentage = (currentTippedTotal - currentTotal) / currentTotal;
+
+    setTippedTotal(currentTippedTotal);
     setTipSelectionLog(
       "TippedTotal, " +
         currentTippedTotal +
         ", TipPercentage, " +
-        ((currentTippedTotal - currentTotal) / currentTotal).toFixed(2) +
+        tipPercentage.toFixed(2) +
         ", "
-    ); // save data for csv
-    console.log("TippedTotal: " + currentTippedTotal + ", "); // log for debugging
-    markCompleted(); // Update Zustand store
-    navigation.navigate("Payment"); // Direct transition
+    );
+
+    // --- Answer tracking ---
+    setAnswer("interfaceScenario", scenarioName);
+    setAnswer("total", currentTotal);
+    setAnswer("tippedTotal", currentTippedTotal);
+    setAnswer("tipPercentage", tipPercentage);
+    // setAnswer("optionFormat", ...); // implement later
+
+    markCompleted();
+    navigation.navigate("Payment");
   };
 
-  //Define specific scenario interfaces
-  const optionsInterface = (
-    <OptionsInterfaceComp
-      currentTotal={currentTotal}
-      onTipSelect={handleTipSelect}
-    />
-  );
-  const roundingInterface = (
-    <RoundingInterfaceComp
-      currentTotal={currentTotal}
-      onTipSelect={handleTipSelect}
-    />
-  );
-
-  // **** Other Scenarios can be added here ****
-
-  var selectedScenario = null;
-  if (scenario === 0) {
-    selectedScenario = optionsInterface;
-  } else if (scenario === 1) {
-    selectedScenario = roundingInterface;
+  // Select interface based on interfaceType
+  let selectedScenario = null;
+  if (interfaceType === "options") {
+    selectedScenario = (
+      <OptionsInterfaceComp
+        currentTotal={currentTotal}
+        onTipSelect={handleTipSelect}
+      />
+    );
+  } else if (interfaceType === "rounding") {
+    selectedScenario = (
+      <RoundingInterfaceComp
+        currentTotal={currentTotal}
+        onTipSelect={handleTipSelect}
+      />
+    );
   } else {
-    selectedScenario = <Text> Scenario not found</Text>;
+    selectedScenario = <Text>Scenario not found</Text>;
   }
 
   return (
     <SafeAreaView style={[commonStyles.fullScreen, styles.container]}>
-      {/* Back Button */}
       <BackButton />
-
-      {/* Inserted Scenario */}
       {selectedScenario}
     </SafeAreaView>
   );

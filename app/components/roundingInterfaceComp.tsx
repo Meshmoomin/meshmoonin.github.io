@@ -19,12 +19,15 @@ interface RoundingInterfaceCompProps {
 
 const RoundingInterfaceComp: React.FC<RoundingInterfaceCompProps> = ({
   currentTotal,
+  onTipSelect,
 }) => {
   const [currentTippedTotal, setCurrentTippedTotal] =
     React.useState(currentTotal); // Read currentTotal from totalEntry
   const values = useTipRounding(currentTotal); //[5.0, 4.5, 4.0, 3.5, 3.2]; // replace with algorithm
 
-  const handleComplete = () => {};
+  const handleComplete = () => {
+    onTipSelect(currentTippedTotal - currentTotal);
+  };
 
   return (
     <SafeAreaView style={commonStyles.fullScreen}>
