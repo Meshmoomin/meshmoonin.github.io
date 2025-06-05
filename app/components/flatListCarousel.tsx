@@ -83,10 +83,43 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
     scrollToIndex(centerIndex + 1);
   };
 
-  const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+  // Debounce utility
+  function debounce(func: (...args: any[]) => void, wait: number) {
+    let timeout: NodeJS.Timeout;
+    return (...args: any[]) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), wait);
+    };
+  }
+
+  const handleScrollEndDrag = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const y = e.nativeEvent.contentOffset.y;
     const index = Math.round(y / ITEM_HEIGHT);
-    setCenterIndex(index); // Update the center index dynamically
+    setCenterIndex(index);
+    flatListRef.current?.scrollToOffset({
+      offset: index * ITEM_HEIGHT,
+      animated: true,
+    });
+    onChange(extendedValues[index]);
+  };
+
+  // Debounced scroll handler for web/desktop
+  const debouncedScrollEnd = useRef(
+    debounce((y: number) => {
+      const index = Math.round(y / ITEM_HEIGHT);
+      setCenterIndex(index);
+      flatListRef.current?.scrollToOffset({
+        offset: index * ITEM_HEIGHT,
+        animated: true,
+      });
+      onChange(extendedValues[index]);
+    }, 60)
+  ).current;
+
+  const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const y = e.nativeEvent.contentOffset.y;
+    setCenterIndex(Math.round(y / ITEM_HEIGHT));
+    debouncedScrollEnd(y);
   };
 
   const handleMomentumEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -175,10 +208,11 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
             [{ nativeEvent: { contentOffset: { y: scrollY } } }],
             {
               useNativeDriver: true,
-              listener: handleScroll, // Dynamically update the center index
+              listener: handleScroll,
             }
           )}
           onMomentumScrollEnd={handleMomentumEnd}
+          onScrollEndDrag={handleScrollEndDrag}
           initialScrollIndex={extendedValues.length - 1} // Start at the last value
         />
       </View>
