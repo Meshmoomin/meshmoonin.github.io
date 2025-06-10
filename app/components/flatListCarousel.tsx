@@ -29,18 +29,18 @@ const CENTER_OFFSET = ITEM_HEIGHT * Math.floor(VISIBLE_ITEMS / 2);
 
 const AnimatedFlatList = Animated.createAnimatedComponent(
   FlatList as React.ComponentClass<
-    React.ComponentProps<typeof FlatList<number>>
+    React.ComponentProps<typeof FlatList<string | number>>
   >
 ) as React.ComponentType<
-  React.ComponentProps<typeof FlatList<number>> & {
-    ref?: React.Ref<FlatList<number>>;
+  React.ComponentProps<typeof FlatList<string | number>> & {
+    ref?: React.Ref<FlatList<string | number>>;
   }
 >;
 
 interface RoundingCarouselProps {
-  values: number[];
+  values: (number | string)[];
   currentTotal: number;
-  onChange: (value: number) => void;
+  onChange: (value: number | string) => void;
 }
 
 const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
@@ -49,10 +49,11 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
   onChange,
 }) => {
   const scrollY = useRef(new Animated.Value(0)).current;
-  const flatListRef = useRef<FlatList<number>>(null);
+  const flatListRef = useRef<FlatList<number | string>>(null);
 
   // Add currentTotal to the bottom of the list
-  const extendedValues = [...values, currentTotal];
+  //const extendedValues = [...values, currentTotal];
+  const extendedValues = [...values];
 
   // Initialize the selected value to the last value in the list
   const [centerIndex, setCenterIndex] = React.useState(
@@ -60,7 +61,7 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
   );
 
   const getItemLayout = (
-    data: ArrayLike<number> | null | undefined,
+    data: ArrayLike<string | number> | null | undefined,
     index: number
   ) => ({
     length: ITEM_HEIGHT,
@@ -132,7 +133,13 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
     onChange(extendedValues[index]);
   };
 
-  const renderItem = ({ item, index }: { item: number; index: number }) => {
+  const renderItem = ({
+    item,
+    index,
+  }: {
+    item: number | string;
+    index: number;
+  }) => {
     const inputRange = [
       (index - 2) * ITEM_HEIGHT,
       (index - 1) * ITEM_HEIGHT,
@@ -154,6 +161,14 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
     });
 
     const isCenterItem = index === centerIndex;
+
+    // Format display value
+    let displayValue: string;
+    if (typeof item === "number") {
+      displayValue = item.toFixed(2) + "€";
+    } else {
+      displayValue = item;
+    }
 
     return (
       <Animated.View
@@ -179,7 +194,7 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
           numberOfLines={1}
           minimumFontScale={0.5}
         >
-          {item.toFixed(2)}€
+          {displayValue}
         </Text>
       </Animated.View>
     );

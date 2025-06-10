@@ -1,9 +1,5 @@
 import * as React from "react";
 import { Text, StyleSheet, View, Pressable } from "react-native";
-
-import { useNavigation } from "@react-navigation/native";
-import { useScenarioStore } from "@/app/store/store";
-import { ScreenNavigationProp } from "@/types/navigation";
 import { commonStyles } from "@/app/styles/commonStyles";
 import { useTipRounding } from "@/app/hooks/tipRounding";
 import RoundingCarousel from "@/app/components/flatListCarousel";
@@ -14,19 +10,58 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 interface RoundingInterfaceCompProps {
   currentTotal: number; // Pass currentTotal as a prop
+  format: string; // e.g., "sumRound", "sumFixed", "Fixed", "Percent"
   onTipSelect: (value: number) => void; // Pass up selected tip
 }
 
 const RoundingInterfaceComp: React.FC<RoundingInterfaceCompProps> = ({
   currentTotal,
+  format,
   onTipSelect,
 }) => {
   const [currentTippedTotal, setCurrentTippedTotal] =
     React.useState(currentTotal); // Read currentTotal from totalEntry
-  const values = useTipRounding(currentTotal); //[5.0, 4.5, 4.0, 3.5, 3.2]; // replace with algorithm
+
+  let valuesSumRound = useTipRounding(currentTotal); //
+  valuesSumRound = [...valuesSumRound, currentTotal];
+  const valuesFixed = [
+    0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0,
+  ].reverse();
+  const valuesSumFixed = valuesFixed.map((value) => value + currentTotal);
+  const valuesPercent = [
+    "0%",
+    "5%",
+    "10%",
+    "15%",
+    "20%",
+    "25%",
+    "30%",
+    "35%",
+    "40%",
+  ].reverse();
+
+  let values;
+  switch (format) {
+    case "sumRound":
+      values = valuesSumRound;
+      break;
+    case "sumFixed":
+      values = valuesSumFixed;
+      break;
+    case "Fixed":
+      values = valuesFixed;
+      break;
+    case "Percent":
+      values = valuesPercent;
+      break;
+    default:
+      console.warn("Unknown format, using default Fixed options");
+      values = valuesFixed;
+      break;
+  }
 
   const handleComplete = () => {
-    onTipSelect(currentTippedTotal - currentTotal);
+    onTipSelect(currentTippedTotal);
   };
 
   return (
@@ -38,7 +73,21 @@ const RoundingInterfaceComp: React.FC<RoundingInterfaceCompProps> = ({
           <RoundingCarousel
             values={values}
             currentTotal={currentTotal}
-            onChange={setCurrentTippedTotal}
+            onChange={(value) => {
+              if (typeof value === "string") {
+                const parsed = parseFloat(value.replace("%", ""));
+                // If it's a percent, calculate the tip based on currentTotal
+                if (value.includes("%") && !isNaN(parsed)) {
+                  setCurrentTippedTotal(
+                    currentTotal + (currentTotal * parsed) / 100
+                  );
+                } else if (!isNaN(parsed)) {
+                  setCurrentTippedTotal(parsed);
+                }
+              } else {
+                setCurrentTippedTotal(value);
+              }
+            }}
           />
         </View>
 

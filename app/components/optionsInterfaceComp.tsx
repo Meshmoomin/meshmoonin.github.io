@@ -4,31 +4,83 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Cancel from "@/assets/Icons/CancelCircle";
 import { commonStyles } from "@/app/styles/commonStyles";
 import CurrentTotalLarge from "@/app/components/currentTotalLarge";
+import { useTipRounding } from "@/app/hooks/tipRounding"; // Assuming you have a custom hook for tip rounding
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 const scale = Math.min(SCREEN_WIDTH / 375, SCREEN_HEIGHT / 667, 1.2); // iPhone SE base
 
-// Define your tip options at the top of the component or file
-const tipOptions = [
-  { label: "0.50€", value: 0.5 },
-  { label: "1.00€", value: 1.0 },
-  { label: "1.50€", value: 1.5 },
-  { label: "2.00€", value: 2.0 },
-];
-
 interface RoundingInterfaceCompProps {
   currentTotal: number; // Pass currentTotal as a prop
+  format: string; // Optional format prop, can be used for future extensions
   onTipSelect: (value: number) => void; // Pass up selected tip
 }
 
 const OptionsInterfaceComp: React.FC<RoundingInterfaceCompProps> = ({
   currentTotal,
+  format,
   onTipSelect,
 }) => {
   const handleTipSelect = (value: number) => {
     onTipSelect(value); // Call the passed function to handle tip selection
   };
 
+  const tipOptionsFixed = [
+    { label: "0.50€", value: 0.5 + currentTotal },
+    { label: "1.00€", value: 1.0 + currentTotal },
+    { label: "1.50€", value: 1.5 + currentTotal },
+    { label: "2.00€", value: 2.0 + currentTotal },
+  ];
+  const tipOptionsPercent = [
+    { label: "5%", value: 1.05 * currentTotal },
+    { label: "10%", value: 1.1 * currentTotal },
+    { label: "15%", value: 1.15 * currentTotal },
+    { label: "20%", value: 1.2 * currentTotal },
+  ];
+  const tipOptionsSumFixed = [
+    { label: (0.5 + currentTotal).toFixed(2) + "€", value: 0.5 + currentTotal },
+    { label: (1.0 + currentTotal).toFixed(2) + "€", value: 1.0 + currentTotal },
+    { label: (1.5 + currentTotal).toFixed(2) + "€", value: 1.5 + currentTotal },
+    { label: (2.0 + currentTotal).toFixed(2) + "€", value: 2.0 + currentTotal },
+  ];
+  const sumRoundSuggestions = useTipRounding(currentTotal).reverse();
+  const tipOptionsSumRound = [
+    {
+      label: sumRoundSuggestions[0].toFixed(2) + "€",
+      value: sumRoundSuggestions[0],
+    },
+    {
+      label: sumRoundSuggestions[1].toFixed(2) + "€",
+      value: sumRoundSuggestions[1],
+    },
+    {
+      label: sumRoundSuggestions[2].toFixed(2) + "€",
+      value: sumRoundSuggestions[2],
+    },
+    {
+      label: sumRoundSuggestions[3].toFixed(2) + "€",
+      value: sumRoundSuggestions[3],
+    },
+  ];
+
+  let tipOptions;
+  switch (format) {
+    case "sumRound":
+      tipOptions = tipOptionsSumRound;
+      break;
+    case "sumFixed":
+      tipOptions = tipOptionsSumFixed;
+      break;
+    case "Fixed":
+      tipOptions = tipOptionsFixed;
+      break;
+    case "Percent":
+      tipOptions = tipOptionsPercent;
+      break;
+    default:
+      console.warn("Unknown format, using default Fixed options");
+      tipOptions = tipOptionsFixed;
+      break;
+  }
   // Split tip options into two rows
   const firstRow = tipOptions.slice(0, 2);
   const secondRow = tipOptions.slice(2, 4);
@@ -81,7 +133,7 @@ const OptionsInterfaceComp: React.FC<RoundingInterfaceCompProps> = ({
               commonStyles.shadowBox,
               pressed && commonStyles.buttonPressed,
             ]}
-            onPress={() => handleTipSelect(0)}
+            onPress={() => handleTipSelect(currentTotal)}
           >
             <Cancel width={38 * scale} height={38 * scale} />
             <Text style={styles.noTipText}>Kein Trinkgeld</Text>

@@ -42,7 +42,7 @@ export default function UniversalScenario({
         : "Unknown";
 
   const handleTipSelect = (value: number) => {
-    const currentTippedTotal = currentTotal + value;
+    const currentTippedTotal = value;
     const tipPercentage = (currentTippedTotal - currentTotal) / currentTotal;
     const totalCents = currentTotal * 100;
     const interfaceScenario =
@@ -70,6 +70,7 @@ export default function UniversalScenario({
     selectedScenario = (
       <OptionsInterfaceComp
         currentTotal={currentTotal}
+        format={format}
         onTipSelect={handleTipSelect}
       />
     );
@@ -77,6 +78,7 @@ export default function UniversalScenario({
     selectedScenario = (
       <RoundingInterfaceComp
         currentTotal={currentTotal}
+        format={format}
         onTipSelect={handleTipSelect}
       />
     );
