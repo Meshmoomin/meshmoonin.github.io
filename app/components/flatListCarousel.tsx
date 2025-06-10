@@ -18,8 +18,12 @@ import FadeUpper from "@/assets/Icons/FadeUpper";
 import FadeLower from "@/assets/Icons/FadeLower";
 import { LinearGradient } from "expo-linear-gradient";
 
-const { width, height } = Dimensions.get("window");
-const ITEM_HEIGHT = 120;
+// Responsive scaling
+const BASE_ITEM_HEIGHT = 80;
+const BASE_BUTTON_SIZE = 60; // or 64 for even larger buttons
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
+const scale = Math.min(SCREEN_WIDTH / 250, SCREEN_HEIGHT / 500, 1.5);
+const ITEM_HEIGHT = BASE_ITEM_HEIGHT * scale;
 const VISIBLE_ITEMS = 3;
 const CENTER_OFFSET = ITEM_HEIGHT * Math.floor(VISIBLE_ITEMS / 2);
 
@@ -70,8 +74,8 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
         offset: index * ITEM_HEIGHT,
         animated: true,
       });
-      onChange(extendedValues[index]); // Update the selected value
-      setCenterIndex(index); // Update the center index
+      onChange(extendedValues[index]);
+      setCenterIndex(index);
     }
   };
 
@@ -125,8 +129,7 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
   const handleMomentumEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const y = e.nativeEvent.contentOffset.y;
     const index = Math.round(y / ITEM_HEIGHT);
-    onChange(extendedValues[index]); // Update the selected value
-    //console.log("Selected value:", extendedValues[index]); // Log the selected value
+    onChange(extendedValues[index]);
   };
 
   const renderItem = ({ item, index }: { item: number; index: number }) => {
@@ -138,7 +141,7 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
       (index + 2) * ITEM_HEIGHT,
     ];
 
-    const scale = scrollY.interpolate({
+    const scaleAnim = scrollY.interpolate({
       inputRange,
       outputRange: [0.7, 0.85, 1, 0.85, 0.7],
       extrapolate: "clamp",
@@ -158,7 +161,7 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
           styles.item,
           {
             height: ITEM_HEIGHT,
-            transform: [{ scale }],
+            transform: [{ scale: scaleAnim }],
             opacity,
           },
         ]}
@@ -166,7 +169,11 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
         <Text
           style={[
             styles.valueText,
-            { fontWeight: isCenterItem ? "bold" : "normal" },
+            {
+              fontWeight: isCenterItem ? "bold" : "normal",
+              fontSize: 48 * scale,
+              lineHeight: 56 * scale,
+            },
           ]}
           adjustsFontSizeToFit
           numberOfLines={1}
@@ -181,7 +188,9 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
-        <View style={[styles.fade, { top: 0, height: 80, width: "100%" }]}>
+        <View
+          style={[styles.fade, { top: 0, height: 80 * scale, width: "100%" }]}
+        >
           <LinearGradient
             colors={["white", "transparent"]}
             style={{ flex: 1, width: "100%" }}
@@ -213,7 +222,7 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
           )}
           onMomentumScrollEnd={handleMomentumEnd}
           onScrollEndDrag={handleScrollEndDrag}
-          initialScrollIndex={extendedValues.length - 1} // Start at the last value
+          initialScrollIndex={extendedValues.length - 1}
         />
       </View>
       <FadeLower
@@ -225,7 +234,9 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
         ]}
         width="70%"
       />
-      <View style={[styles.fade, { bottom: 0, height: 60, width: "100%" }]}>
+      <View
+        style={[styles.fade, { bottom: 0, height: 60 * scale, width: "100%" }]}
+      >
         <LinearGradient
           colors={["transparent", "white"]}
           style={{ flex: 1, width: "100%" }}
@@ -239,6 +250,7 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
             styles.button,
             commonStyles.button,
             pressed && commonStyles.buttonPressed,
+            { padding: 10 * scale, borderRadius: 12 * scale },
           ]}
           onPress={handleScrollUp}
         >
@@ -249,6 +261,7 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
             styles.button,
             commonStyles.button,
             pressed && commonStyles.buttonPressed,
+            { padding: 10 * scale, borderRadius: 12 * scale },
           ]}
           onPress={handleScrollDown}
         >
@@ -259,7 +272,6 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
   );
 };
 
-// Updated styles
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: "row",
@@ -270,8 +282,6 @@ const styles = StyleSheet.create({
     height: ITEM_HEIGHT * VISIBLE_ITEMS,
     justifyContent: "center",
     overflow: "hidden",
-    /* borderWidth: 1, // Debugging style, remove in production.
-    borderColor: "#ccc", // Debugging style, remove in production*/
   },
   fade: {
     pointerEvents: "none",
@@ -280,30 +290,34 @@ const styles = StyleSheet.create({
     zIndex: 1,
     overflow: "hidden",
   },
-  icon: {
-    margin: 5,
-  },
   buttonContainer: {
     justifyContent: "space-between",
-    marginLeft: 10,
+    marginLeft: 24, // more space between buttons and carousel
   },
   button: {
     backgroundColor: "#ece6f0",
-    padding: 10,
-    borderRadius: 5,
-    marginVertical: 10,
     alignItems: "center",
+    justifyContent: "center",
+    width: BASE_BUTTON_SIZE * scale,
+    height: BASE_BUTTON_SIZE * scale,
+    borderRadius: (BASE_BUTTON_SIZE * scale) / 2,
+    marginVertical: 10,
+    // padding: 0, // not needed if width/height are set
+  },
+  icon: {
+    width: 32 * scale,
+    height: 32 * scale,
   },
   item: {
     justifyContent: "center",
     alignItems: "center",
   },
   valueText: {
-    fontSize: 70,
-    lineHeight: 80,
+    fontSize: 32 * scale,
+    lineHeight: 40 * scale,
     color: "#4f4f4f",
     fontFamily: "Roboto",
-    fontWeight: "semibold",
+    fontWeight: "600",
   },
 });
 

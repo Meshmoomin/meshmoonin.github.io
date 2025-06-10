@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Pressable } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, Text, View, Pressable, Dimensions } from "react-native";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNavigationProp } from "@/types/navigation";
 import { useScenarioStore } from "@/app/store/store";
 import { commonStyles } from "@/app/styles/commonStyles";
-import BackButton from "../components/backButton";
+
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 // Possible values
 //const INTERFACE_TYPES = ["options", "rounding"] as const; Disabled for Debugging TODO reenable
@@ -40,6 +44,10 @@ const IDEntry = () => {
   const [amount, setAmount] = useState(""); // State to manage the large amount
   const navigation = useNavigation<ScreenNavigationProp>();
   const { setParticipantID, storeScenarioFlow } = useScenarioStore();
+  const insets = useSafeAreaInsets();
+
+  // Responsive scaling factors
+  const scale = Math.min(SCREEN_WIDTH / 400, SCREEN_HEIGHT / 800, 1.2); // 1.2 is a max scale cap
 
   const generateScenarioOrder = (participantId: number) => {
     const followUpPlaceholder = {
@@ -109,54 +117,73 @@ const IDEntry = () => {
     }
   };
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <BackButton />
-      <View style={styles.IDEntryLabel}>
-        <Text style={styles.label}>Teilnahme ID eingeben:</Text>
-      </View>
-      {/* Editable Large Amount */}
-      <View style={styles.largeAmountContainer}>
-        <Text style={styles.largeAmount}>{amount || "-"}</Text>
-      </View>
+  // Keyboard layout: 4 rows of 3 buttons
+  const keys = [
+    ["1", "2", "3"],
+    ["4", "5", "6"],
+    ["7", "8", "9"],
+    ["0", "backspace", "enter"],
+  ];
 
-      {/* On-Screen Keyboard */}
-      <View style={styles.keyboard}>
-        {["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace"].map(
-          (key, index) => (
-            <Pressable
-              key={index}
-              style={({ pressed }) => [
-                styles.key,
-                pressed && commonStyles.buttonPressed,
-              ]}
-              onPress={() => handleKeyPress(key)}
-            >
-              <Text style={styles.keyText}>
-                {key === "backspace" ? "⌫" : key}
-              </Text>
-            </Pressable>
-          )
-        )}
-        <Pressable
-          style={({ pressed }) => [
-            styles.key,
-            styles.enterKey,
-            commonStyles.confirmButtonGreen,
-            pressed && commonStyles.buttonPressed,
-          ]}
-          onPress={() => handleEnterPress()}
-        >
-          <Text
-            style={[
-              styles.enterKeyText,
-              commonStyles.textSmall,
-              commonStyles.midGrey,
-            ]}
-          >
-            Enter
-          </Text>
-        </Pressable>
+  return (
+    <SafeAreaView
+      style={[
+        styles.container,
+        { paddingTop: insets.top, paddingBottom: insets.bottom },
+      ]}
+    >
+      <View style={styles.IDEntryLabel}>
+        <Text style={[styles.label, { fontSize: 20 * scale }]}>
+          Teilnahme ID eingeben:
+        </Text>
+      </View>
+      <View style={styles.largeAmountContainer}>
+        <Text style={[styles.largeAmount, { fontSize: 60 * scale }]}>
+          {amount || "-"}
+        </Text>
+      </View>
+      <View
+        style={[
+          styles.keyboard,
+          { width: Math.min(SCREEN_WIDTH * 0.9, 350 * scale) },
+        ]}
+      >
+        {keys.map((row, rowIndex) => (
+          <View key={rowIndex} style={styles.keyRow}>
+            {row.map((key, colIndex) => (
+              <Pressable
+                key={colIndex}
+                style={({ pressed }) => [
+                  styles.key,
+                  {
+                    width: 70 * scale,
+                    height: 70 * scale,
+                    borderRadius: 35 * scale,
+                  },
+                  key === "enter" && styles.enterKey,
+                  pressed && commonStyles.buttonPressed,
+                  key === "enter" && commonStyles.confirmButtonGreen,
+                ]}
+                onPress={() => {
+                  if (key === "enter") handleEnterPress();
+                  else handleKeyPress(key);
+                }}
+              >
+                <Text
+                  style={[
+                    styles.keyText,
+                    {
+                      fontSize: 24 * scale,
+                      color: "#4F4F4F",
+                    },
+                  ]}
+                >
+                  {key === "backspace" ? "⌫" : key === "enter" ? "Enter" : key}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+        ))}
       </View>
     </SafeAreaView>
   );
@@ -166,7 +193,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 20,
     alignContent: "center",
     justifyContent: "center",
   },
@@ -174,65 +200,48 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
   },
-
-  topAmountContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  label: {
-    fontSize: 20,
-    fontWeight: "500",
-    color: "#afafaf",
-    fontFamily: "Roboto",
-  },
-  smallAmount: {
-    fontSize: 20,
-    fontWeight: "500",
-    color: "#afafaf",
-    fontFamily: "Roboto",
-  },
   largeAmountContainer: {
     alignItems: "center",
     marginVertical: 20,
   },
   largeAmount: {
-    fontSize: 60,
     fontWeight: "600",
     color: "#1f1f1f",
     fontFamily: "Roboto",
   },
   keyboard: {
-    width: "80%",
-    flexDirection: "row",
-    flexWrap: "wrap",
     alignSelf: "center",
     justifyContent: "center",
     marginTop: 20,
   },
+  keyRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: 10,
+  },
   key: {
-    width: 80,
-    height: 80,
-    margin: 5,
-    borderRadius: 40,
     backgroundColor: "#f7f2fa",
     justifyContent: "center",
     alignItems: "center",
+    marginHorizontal: 5,
   },
   keyText: {
-    fontSize: 24,
     fontWeight: "700",
-    color: "#1d1b20",
     fontFamily: "Roboto",
   },
   enterKey: {
     backgroundColor: "#ece6f0",
   },
   enterKeyText: {
-    fontSize: 18,
     fontWeight: "600",
     fontFamily: "Roboto",
+  },
+  label: {
+    color: "#4F4F4F",
+    textAlign: "center",
+    fontFamily: "Roboto",
+    lineHeight: 24,
+    marginBottom: 10,
   },
 });
 

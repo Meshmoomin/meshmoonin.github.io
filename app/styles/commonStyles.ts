@@ -83,7 +83,7 @@ export const commonStyles = StyleSheet.create({
     color: "#4F4F4F",
   },
   confirmButtonText: {
-    fontSize: 45,
+    fontSize: 40,
     fontFamily: "Roboto",
     lineHeight: 52,
     textAlign: "center",

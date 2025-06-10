@@ -82,7 +82,7 @@ export default function SurveyComplete() {
           >
             Jetzt geht es bei Limesurvey weiter. Das Passwort ist:
           </Text>
-          <Text style={[commonStyles.textSmall, commonStyles.midGrey]}>
+          <Text style={[commonStyles.textSmall, commonStyles.lightGrey]}>
             "Streuselschnecke"
           </Text>
         </View>

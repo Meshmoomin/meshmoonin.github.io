@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 
 const TERMINAL_ASPECT_RATIO = 7 / 16; // Portrait phone ratio
-const MAX_WIDTH = 500; // Max width for desktop
+const MAX_WIDTH = 700; // Max width for desktop
 
 type TerminalViewProps = {
   children: ReactNode; // Explicitly typep children prop
@@ -29,8 +29,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 10,
     elevation: 5,
-    /* borderStyle: "solid",
-    borderWidth: 5,
-    borderColor: "red", */
   },
 });

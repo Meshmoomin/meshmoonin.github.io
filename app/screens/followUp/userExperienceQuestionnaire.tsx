@@ -1,10 +1,19 @@
 import * as React from "react";
-import { Text, StyleSheet, View, ScrollView, Pressable } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  ScrollView,
+  Pressable,
+  Dimensions,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNavigationProp } from "@/types/navigation";
 import { useScenarioStore } from "@/app/store/store";
 import { useCustomBackHandler } from "@/app/hooks/backHandler";
 import { commonStyles } from "@/app/styles/commonStyles";
+
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function UserExperienceQuestionnaire() {
   const navigation = useNavigation<ScreenNavigationProp>();
@@ -88,7 +97,8 @@ export default function UserExperienceQuestionnaire() {
       stickyHeaderIndices={[0]}
     >
       {/* Sticky header */}
-      <View style={styles.stickyHeader}>
+      <View style={styles.stickyHeaderWrapper}>
+        <View style={[styles.stickyHeaderBg, { width: SCREEN_WIDTH }]} />
         <Text style={styles.stickyHeaderText}>
           Ich finde das Interface war eher ...
         </Text>
@@ -153,24 +163,51 @@ export default function UserExperienceQuestionnaire() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
     backgroundColor: "#fff",
     alignItems: "center",
-  },
-  stickyHeader: {
-    backgroundColor: "#fff",
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ece6f0",
     width: "100%",
+    paddingHorizontal: 16,
+    paddingBottom: 20,
+  },
+  stickyHeaderWrapper: {
+    flexDirection: "row",
+    flexGrow: 2,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
     zIndex: 10,
+    backgroundColor: "#fff",
+    left: 0,
+    right: 0,
+  },
+  stickyHeaderBg: {
+    backgroundColor: "#fff",
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    height: "100%",
+    // Shadow for iOS
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    // Shadow for Android
+    elevation: 4,
   },
   stickyHeaderText: {
-    fontSize: 20,
+    fontSize: 16,
     color: "#4F4F4F",
     textAlign: "center",
     fontFamily: "Roboto",
     fontWeight: "bold",
+    paddingVertical: 12,
+    paddingHorizontal: 50,
+    width: "100%",
+    zIndex: 11,
+    backgroundColor: "#fff",
   },
   questionBlock: {
     marginBottom: 32,
@@ -182,6 +219,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 4,
     elevation: 2,
+    // Add horizontal margin for spacing
+    marginHorizontal: 20,
   },
   labelsRow: {
     flexDirection: "row",
@@ -194,7 +233,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#4F4F4F",
     fontFamily: "Roboto",
-    width: 100,
+    width: 150,
     textAlign: "center",
   },
   radioRow: {

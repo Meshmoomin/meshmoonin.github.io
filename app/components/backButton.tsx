@@ -3,7 +3,7 @@ import { Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNavigationProp } from "@/types/navigation";
 
-const BackButton = () => {
+const BackButton1 = () => {
   const navigation = useNavigation<ScreenNavigationProp>();
   return (
     <Text
@@ -22,4 +22,4 @@ const BackButton = () => {
     </Text>
   );
 };
-export default BackButton;
+export default BackButton1;
