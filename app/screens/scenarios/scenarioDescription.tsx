@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ScreenNavigationProp } from "@/types/navigation";
 import { useScenarioStore } from "@/app/store/store";
 import { commonStyles } from "@/app/styles/commonStyles";
-import BackButton from "@/app/components/backButton";
+import BackButton from "@/app/Archive/backButton";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 const scale = Math.min(SCREEN_WIDTH / 400, SCREEN_HEIGHT / 800, 1.2);

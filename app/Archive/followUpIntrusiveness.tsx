@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Text, StyleSheet, View, Pressable } from "react-native";
-import LabeledScaleOption from "@/app/components/labeledScaleOption";
+import LabeledScaleOption from "@/app/Archive/labeledScaleOption";
 
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNavigationProp } from "@/types/navigation";

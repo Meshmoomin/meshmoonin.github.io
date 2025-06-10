@@ -1,12 +1,8 @@
 import * as React from "react";
 import { Text, StyleSheet, View, Pressable, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
-import { ScreenNavigationProp } from "@/types/navigation";
-import { useScenarioStore } from "@/app/store/store";
 import Cancel from "@/assets/Icons/CancelCircle";
 import { commonStyles } from "@/app/styles/commonStyles";
-import BackButton from "@/app/components/backButton";
 import CurrentTotalLarge from "@/app/components/currentTotalLarge";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");

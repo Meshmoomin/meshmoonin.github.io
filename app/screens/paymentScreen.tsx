@@ -5,7 +5,7 @@ import { commonStyles } from "@/app/styles/commonStyles";
 import { Text, StyleSheet, View, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useScenarioStore } from "@/app/store/store";
-import BackButton from "@/app/components/backButton";
+import BackButton from "@/app/Archive/backButton";
 import CurrentTotalSmall from "@/app/components/currentTotalSmall";
 
 import CardPlacement from "@/assets/Icons/CardPlacement";

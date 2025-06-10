@@ -6,11 +6,11 @@ import { ScreenNavigationProp } from "@/types/navigation";
 import { useScenarioStore } from "@/app/store/store";
 import { useCustomBackHandler } from "@/app/hooks/backHandler";
 
-import FullSmile from "../../../assets/Icons/FullSmile";
-import PartialSmile from "../../../assets/Icons/PartialSmile";
-import Indifferent from "../../../assets/Icons/Indifferent";
-import PartialFrown from "../../../assets/Icons/PartialFrown";
-import FullFrown from "../../../assets/Icons/FullFrown";
+import FullSmile from "../../assets/Icons/FullSmile";
+import PartialSmile from "../../assets/Icons/PartialSmile";
+import Indifferent from "../../assets/Icons/Indifferent";
+import PartialFrown from "../../assets/Icons/PartialFrown";
+import FullFrown from "../../assets/Icons/FullFrown";
 
 import { commonStyles } from "@/app/styles/commonStyles";
 
