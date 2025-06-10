@@ -7,6 +7,8 @@ import SmileBig from "@/assets/Icons/SmileBig";
 import { commonStyles } from "@/app/styles/commonStyles";
 import { useScenarioStore } from "@/app/store/store";
 
+let hasSubmittedGlobal = false; // <-- Add this at the top, outside the component
+
 export default function SurveyComplete() {
   const navigation = useNavigation<ScreenNavigationProp>();
   const { answers } = useScenarioStore();
@@ -39,9 +41,12 @@ export default function SurveyComplete() {
       console.error("Error submitting:", error);
     }
   };
+
   React.useEffect(() => {
-    // Submit answers to Google Form when component mounts
-    submitToGoogleForm(answers);
+    if (!hasSubmittedGlobal) {
+      submitToGoogleForm(answers);
+      hasSubmittedGlobal = true;
+    }
   }, [answers]);
 
   return (
@@ -64,7 +69,13 @@ export default function SurveyComplete() {
           <Text style={[commonStyles.midGrey, styles.thankYouText]}>
             Vielen Dank!
           </Text>
-          <Text style={[commonStyles.textSmall, commonStyles.lightGrey]}>
+          <Text
+            style={[
+              { alignContent: "center" },
+              commonStyles.textSmall,
+              commonStyles.lightGrey,
+            ]}
+          >
             Jetzt geht es bei Limesurvey weiter. Das Passwort ist:
           </Text>
           <Text
