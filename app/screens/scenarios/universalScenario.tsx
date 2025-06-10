@@ -59,9 +59,9 @@ export default function UniversalScenario({
     // setAnswer("optionFormat", ...); // implement later
 
     markCompleted();
-    //navigation.navigate("Payment"); //disabled for testing TODO reenable
-    nextScenario();
-    navigation.navigate("UniversalFollowUp"); //Shortcut for testing only
+    nextScenario(); //should be called after Payment
+    navigation.navigate("Payment"); //disabled for testing TODO reenable
+    //navigation.navigate("UniversalFollowUp"); //Shortcut for testing only
   };
 
   // Select interface based on interfaceType

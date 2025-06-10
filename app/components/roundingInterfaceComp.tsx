@@ -24,10 +24,11 @@ const RoundingInterfaceComp: React.FC<RoundingInterfaceCompProps> = ({
 
   let valuesSumRound = useTipRounding(currentTotal); //
   valuesSumRound = [...valuesSumRound, currentTotal];
-  const valuesFixed = [
+  let valuesFixed: number[] | string[] = [
     0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0,
   ].reverse();
   const valuesSumFixed = valuesFixed.map((value) => value + currentTotal);
+  valuesFixed = valuesFixed.map((value) => value.toFixed(2));
   const valuesPercent = [
     "0%",
     "5%",
@@ -81,8 +82,8 @@ const RoundingInterfaceComp: React.FC<RoundingInterfaceCompProps> = ({
                   setCurrentTippedTotal(
                     currentTotal + (currentTotal * parsed) / 100
                   );
-                } else if (!isNaN(parsed)) {
-                  setCurrentTippedTotal(parsed);
+                } else {
+                  setCurrentTippedTotal(currentTotal + parsed);
                 }
               } else {
                 setCurrentTippedTotal(value);
