@@ -7,6 +7,7 @@ import { commonStyles } from "../styles/commonStyles";
 import { useScenarioStore } from "@/app/store/store";
 import { useCustomBackHandler } from "@/app/hooks/backHandler";
 import { SafeAreaView } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function TrialComplete() {
   const navigation = useNavigation<ScreenNavigationProp>();
@@ -56,7 +57,7 @@ export default function TrialComplete() {
       </View>
 
       {/* Preview answers for debugging */}
-      <View
+      <ScrollView
         style={{
           width: "100%",
           padding: 10,
@@ -71,7 +72,7 @@ export default function TrialComplete() {
         <Text style={{ fontFamily: "Roboto", fontSize: 14, color: "#4F4F4F" }}>
           {JSON.stringify(answers, null, 2)}
         </Text>
-      </View>
+      </ScrollView>
 
       <View style={styles.saveButtonSection}>
         <Pressable

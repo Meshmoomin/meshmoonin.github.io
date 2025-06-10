@@ -8,10 +8,12 @@ import { commonStyles } from "@/app/styles/commonStyles";
 import BackButton from "../components/backButton";
 
 // Possible values
-const INTERFACE_TYPES = ["options", "rounding"] as const;
+//const INTERFACE_TYPES = ["options", "rounding"] as const; Disabled for Debugging TODO reenable
+const INTERFACE_TYPES = ["options"] as const;
 //const FORMATS = ["sumRound", "sumFixed", "Fixed", "Percent"] as const; Disabled for Debugging TODO reenable
 const FORMATS = ["Fixed"] as const; //Reduced for faster Debugging
-const TOTALS = [5.15, 10.3, 14.55] as const;
+//const TOTALS = [7.15, 10.3, 12.55] as const; Debugging TODO reenable
+const TOTALS = [7.15, 10.3] as const;
 
 // Helper for all combinations for a given interface type
 function getCombinationsForInterface(interfaceType: string) {

@@ -11,16 +11,16 @@ export default function UniversalFollowUp() {
   const navigation = useNavigation<ScreenNavigationProp>();
   useCustomBackHandler(() => true);
 
-  const { setLogMessage, setAnswer } = useScenarioStore();
+  const { answerIdentifier, setAnswer } = useScenarioStore();
 
   const uniQuestions = [
     {
-      id: "UNI1",
+      id: "Uni1",
       text: "Das Trinkgeld Interface war aufdringlich.",
     },
-    { id: "UNI2", text: "Das Trinkgeld Interface war einfach zu verstehen." },
+    { id: "Uni2", text: "Das Trinkgeld Interface war einfach zu verstehen." },
     {
-      id: "UNI3",
+      id: "Uni3",
       text: "Es war einfach ein Trinkgeld auszuwählen mit dem ich zufrieden bin.",
     },
   ];
@@ -30,7 +30,7 @@ export default function UniversalFollowUp() {
 
   const handleRadioSelect = (questionId: string, value: number) => {
     setAnswers((prev) => ({ ...prev, [questionId]: value }));
-    setAnswer(questionId, value); // Save answer in Zustand store
+    setAnswer(answerIdentifier + questionId, value); // Save answer in Zustand store
   };
 
   return (

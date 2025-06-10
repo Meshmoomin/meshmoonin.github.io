@@ -3,17 +3,45 @@ import * as FileSystem from "expo-file-system";
 
 // Define your answer fields (string IDs)
 const initialAnswers: Record<string, string | number> = {
-  interfaceScenario: "NA",
-  suggestionFormat: "NA",
-  total: "NA",
-  tippedTotal: "NA",
-  tipPercentage: "NA",
-  // Add more as needed
+  participantID: "0000",
+
+  // Questionnaire fields
+  ...Object.fromEntries(
+    Array.from({ length: 26 }, (_, i) => [`OptionsUEQ${i + 1}`, "NA"])
+  ),
+  ...Object.fromEntries(
+    Array.from({ length: 10 }, (_, i) => [`OptionsSUS${i + 1}`, "NA"])
+  ),
+  ...Object.fromEntries(
+    Array.from({ length: 26 }, (_, i) => [`RoundingUEQ${i + 1}`, "NA"])
+  ),
+  ...Object.fromEntries(
+    Array.from({ length: 10 }, (_, i) => [`RoundingSUS${i + 1}`, "NA"])
+  ),
+
+  // Scenario answer fields
+  ...(() => {
+    const scenarios = ["Options", "Rounding"];
+    const formats = ["Fixed", "Percent", "SumRound", "SumFix"];
+    const prices = ["715", "1030", "1255"];
+    const fields = ["Tipped", "Percent", "Uni1", "Uni2", "Uni3"];
+    const entries: [string, string][] = [];
+    for (const scenario of scenarios) {
+      for (const format of formats) {
+        for (const price of prices) {
+          for (const field of fields) {
+            entries.push([`${scenario}${format}${price}${field}`, "NA"]);
+          }
+        }
+      }
+    }
+    return Object.fromEntries(entries);
+  })(),
 };
 
 type ScenarioState = {
-  currentScenario: number;
-  completedScenarios: number[];
+  currentTrial: number;
+  completedTrials: number[];
   currentTotal: number;
   logMessage: string;
   totalEntryLog: string;
@@ -23,6 +51,9 @@ type ScenarioState = {
   useDummyID: boolean;
   answers: Record<string, string | number>;
   scenarioFLow: { interfaceType: string; format: string; total: number }[];
+  answerIdentifier: string;
+  // Actions
+  setIdentifier: (identifier: string) => void;
   setAnswer: (id: string, value: string | number) => void;
   resetAnswers: () => void;
   setParticipantID: (id: number) => void;
@@ -49,8 +80,8 @@ type ScenarioState = {
 const LOG_FILE = FileSystem.documentDirectory + "trials.csv";
 
 export const useScenarioStore = create<ScenarioState>((set) => ({
-  currentScenario: 0,
-  completedScenarios: [],
+  currentTrial: 0,
+  completedTrials: [],
   currentTotal: 0,
   tippedTotal: 0,
   nextParticipantID: 1,
@@ -60,6 +91,8 @@ export const useScenarioStore = create<ScenarioState>((set) => ({
   useDummyID: false,
   answers: { ...initialAnswers },
   scenarioFLow: [],
+  answerIdentifier: "",
+  setIdentifier: (identifier) => set({ answerIdentifier: identifier }),
   storeScenarioFlow(flow) {
     set({ scenarioFLow: flow });
   },
@@ -79,12 +112,12 @@ export const useScenarioStore = create<ScenarioState>((set) => ({
   setTotal: (total) => set({ currentTotal: total }),
   nextScenario: () =>
     set((state) => ({
-      currentScenario: state.currentScenario + 1,
+      currentTrial: state.currentTrial + 1,
     })),
-  setScenario: (id) => set({ currentScenario: id }),
+  setScenario: (id) => set({ currentTrial: id }),
   markCompleted: () =>
     set((state) => ({
-      completedScenarios: [...state.completedScenarios, state.currentScenario],
+      completedTrials: [...state.completedTrials, state.currentTrial],
     })),
   resetLogMessage: () => set({ logMessage: "\n Next Trial \n" }),
   initLogFile: async () => {

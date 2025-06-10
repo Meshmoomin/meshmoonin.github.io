@@ -6,7 +6,7 @@ import SurveyComplete from "@/app/screens/SurveyComplete";
 import ScenarioDescription from "@/app/screens/scenarios/scenarioDescription";
 
 export default function ScenarioFlowController() {
-  const { currentScenario, scenarioFLow } = useScenarioStore();
+  const { currentTrial: currentScenario, scenarioFLow } = useScenarioStore();
 
   const scenarioParams = scenarioFLow[currentScenario];
   console.log(scenarioParams); // Debugging: Log the current scenario parameters

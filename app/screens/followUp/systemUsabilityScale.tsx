@@ -11,7 +11,7 @@ export default function SystemUsabilityScale() {
   const navigation = useNavigation<ScreenNavigationProp>();
   useCustomBackHandler(() => true);
 
-  const { setLogMessage, setAnswer } = useScenarioStore();
+  const { answerIdentifier, setAnswer } = useScenarioStore();
 
   const susQuestions = [
     {
@@ -51,8 +51,10 @@ export default function SystemUsabilityScale() {
   const [answers, setAnswers] = React.useState<Record<string, number>>({});
 
   const handleRadioSelect = (questionId: string, value: number) => {
+    const scenario =
+      answerIdentifier.charAt(0) === "R" ? "Rounding" : "Options";
     setAnswers((prev) => ({ ...prev, [questionId]: value }));
-    setAnswer(questionId, value); // Save answer in Zustand store
+    setAnswer(scenario + questionId, value); // Save answer in Zustand store
   };
 
   return (

@@ -23,11 +23,12 @@ export default function UniversalScenario({
 }: UniversalScenarioProps) {
   const navigation = useNavigation<ScreenNavigationProp>();
   const {
-    currentScenario,
+    nextParticipantID,
     markCompleted,
     setTippedTotal,
     setAnswer,
     nextScenario,
+    setIdentifier,
   } = useScenarioStore();
 
   // Use the passed-in total instead of currentTotal from store
@@ -44,17 +45,18 @@ export default function UniversalScenario({
   const handleTipSelect = (value: number) => {
     const currentTippedTotal = currentTotal + value;
     const tipPercentage = (currentTippedTotal - currentTotal) / currentTotal;
+    const totalCents = currentTotal * 100;
+    const interfaceScenario =
+      interfaceType === "options" ? "Options" : "Rounding";
+    var identifier: string = interfaceScenario + format + totalCents;
 
+    setIdentifier(identifier);
     setTippedTotal(currentTippedTotal);
 
     // --- Answer tracking ---
-    setAnswer("interfaceScenario", scenarioName);
-    setAnswer("total", currentTotal);
-    setAnswer("tippedTotal", currentTippedTotal);
-    setAnswer("tipPercentage", tipPercentage);
-    setAnswer("suggestionFormat", format);
-    setAnswer("currentTrial", currentScenario);
-
+    setAnswer("participantID", nextParticipantID);
+    setAnswer(identifier + "Tipped", currentTippedTotal);
+    setAnswer(identifier + "Percent", tipPercentage);
     // setAnswer("optionFormat", ...); // implement later
 
     markCompleted();

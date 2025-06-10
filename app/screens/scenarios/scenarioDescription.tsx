@@ -28,7 +28,7 @@ export default function ScenarioDescription({
 
   // Select interface based on interfaceType
   let descriptionText = null;
-  if (total === 5.15) {
+  if (total === 7.15) {
     descriptionText = (
       <Text style={[styles.descText, commonStyles.midGrey]}>
         Du bestellst zwei Heißgetränke zum mitnehmen bei einem Café, das du
@@ -48,7 +48,7 @@ export default function ScenarioDescription({
         dir wird folgendes Interface für Trinkgeld präsentiert:
       </Text>
     );
-  } else if (total === 14.55) {
+  } else if (total === 12.55) {
     descriptionText = (
       <Text style={[styles.descText, commonStyles.midGrey]}>
         Du trifftst dich zum Lernen mit einer Freundin in einem ruhigen Café.

@@ -3,7 +3,7 @@ import { useScenarioStore } from "@/app/store/store";
 import UniversalScenario from "@/app/screens/scenarios/universalScenario";
 
 export default function ScenarioRouter() {
-  const { currentScenario, scenarioFLow } = useScenarioStore();
+  const { currentTrial: currentScenario, scenarioFLow } = useScenarioStore();
 
   // Get the full order of scenarios
   // Get the current scenario's parameters
