@@ -39,10 +39,8 @@ export default function TrialComplete() {
   const appendCSV = () => {
     // Append the log message to the CSV file
     //TODO
-
     // This function should be implemented to handle the actual file writing
     // For now, it's just a placeholder
-    console.log("Appending to CSV:", logMessage);
   };
 
   return (

@@ -71,20 +71,18 @@ export default function SurveyComplete() {
           </Text>
           <Text
             style={[
-              { alignContent: "center" },
+              {
+                textAlign: "center",
+                justifyContent: "center",
+                marginVertical: 8,
+              },
               commonStyles.textSmall,
               commonStyles.lightGrey,
             ]}
           >
             Jetzt geht es bei Limesurvey weiter. Das Passwort ist:
           </Text>
-          <Text
-            style={[
-              commonStyles.textSmall,
-              { fontWeight: "bold" },
-              commonStyles.lightGrey,
-            ]}
-          >
+          <Text style={[commonStyles.textSmall, commonStyles.midGrey]}>
             "Streuselschnecke"
           </Text>
         </View>
@@ -123,7 +121,7 @@ const styles = StyleSheet.create({
   thankYouText: {
     fontSize: 32,
     fontFamily: "Roboto",
-    marginTop: 8,
+    marginVertical: 8,
     textAlign: "center",
   },
   instructionText: {
