@@ -8,15 +8,11 @@ import { useNavigation } from "@react-navigation/native";
 import { ScreenNavigationProp } from "@/types/navigation";
 import { useScenarioStore } from "@/app/store/store";
 import { commonStyles } from "@/app/styles/commonStyles";
+import { SCENARIOS, FORMATS, PRICES, FIELDS } from "@/app/constants";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-// Possible values
-const INTERFACE_TYPES = ["options", "rounding"] as const;
-const FORMATS = ["sumRound", "sumFixed", "Fixed", "Percent"] as const;
-//const FORMATS = ["Fixed"] as const; //Reduced for faster Debugging
-const TOTALS = [7.15, 10.3, 12.55] as const; //Debugging TODO reenable
-//const TOTALS = [7.15, 10.3] as const;
+const TOTALS = PRICES.map((price) => parseFloat(price) / 100); // Extract total values from PRICES
 
 // Helper for all combinations for a given interface type
 function getCombinationsForInterface(interfaceType: string) {

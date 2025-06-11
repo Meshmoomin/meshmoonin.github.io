@@ -7,7 +7,7 @@ import { RootStackParamList } from "@/types/navigation";
 import ScenarioRouter from "@/app/components/ScenarioRouter";
 import ScenarioFlowController from "@/app/components/ScenarioFlowController";
 import TerminalView from "./app/components/TerminalView";
-import PaymentScreenNew from "@/app/screens/PaymentScreen";
+import PaymentScreenNew from "@/app/screens/paymentScreen";
 import TrialComplete from "@/app/screens/TrialComplete";
 import SurveyComplete from "@/app/screens/SurveyComplete";
 import IDEntry from "@/app/screens/IDEntry";
@@ -21,11 +21,6 @@ import UniversalFollowUp from "./app/screens/followUp/universalFollowUp";
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
-  const initLogFile = useScenarioStore((state) => state.initLogFile);
-
-  React.useEffect(() => {
-    initLogFile();
-  }, []);
   return (
     <View style={{ flex: 1 }}>
       <NavigationContainer>

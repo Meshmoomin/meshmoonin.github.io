@@ -13,20 +13,7 @@ export default function TrialComplete() {
   const navigation = useNavigation<ScreenNavigationProp>();
   useCustomBackHandler(() => true); // Returning `true` disables the back button
 
-  const {
-    currentTotal,
-    tippedTotal,
-    logMessage,
-    answers,
-    setLogMessage,
-    resetLogMessage,
-    appendToLog,
-  } = useScenarioStore();
-
-  const storeFile = async () => {
-    // Add to log
-    await appendToLog(logMessage);
-  };
+  const { currentTotal, tippedTotal, answers } = useScenarioStore();
 
   const handleComplete = () => {
     navigation.navigate("FlowController");
@@ -34,13 +21,6 @@ export default function TrialComplete() {
 
   const handleCancel = () => {
     navigation.navigate("FlowController");
-  };
-
-  const appendCSV = () => {
-    // Append the log message to the CSV file
-    //TODO
-    // This function should be implemented to handle the actual file writing
-    // For now, it's just a placeholder
   };
 
   return (

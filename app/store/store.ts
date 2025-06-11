@@ -1,6 +1,5 @@
 import { create } from "zustand";
-import * as FileSystem from "expo-file-system";
-
+import { SCENARIOS, FORMATS, PRICES, FIELDS } from "@/app/constants";
 // Define your answer fields (string IDs)
 const initialAnswers: Record<string, string | number> = {
   participantID: "0000",
@@ -21,15 +20,11 @@ const initialAnswers: Record<string, string | number> = {
 
   // Scenario answer fields
   ...(() => {
-    const scenarios = ["Options", "Rounding"];
-    const formats = ["Fixed", "Percent", "SumRound", "SumFix"];
-    const prices = ["715", "1030", "1255"];
-    const fields = ["Tipped", "Percent", "Uni1", "Uni2", "Uni3"];
     const entries: [string, string][] = [];
-    for (const scenario of scenarios) {
-      for (const format of formats) {
-        for (const price of prices) {
-          for (const field of fields) {
+    for (const scenario of SCENARIOS) {
+      for (const format of FORMATS) {
+        for (const price of PRICES) {
+          for (const field of FIELDS) {
             entries.push([`${scenario}${format}${price}${field}`, "NA"]);
           }
         }
@@ -43,9 +38,6 @@ type ScenarioState = {
   currentTrial: number;
   completedTrials: number[];
   currentTotal: number;
-  logMessage: string;
-  totalEntryLog: string;
-  tipSelectionLog: string;
   tippedTotal: number;
   nextParticipantID: number;
   useDummyID: boolean;
@@ -69,15 +61,7 @@ type ScenarioState = {
   incrementParticipantID: (id: number) => void;
   setTotal: (total: number) => void;
   setTippedTotal: (total: number) => void;
-  setLogMessage: (message: string) => void;
-  resetLogMessage: () => void;
-  setTotalEntryLog: (log: string) => void;
-  setTipSelectionLog: (log: string) => void;
-  appendToLog: (data: string) => Promise<void>;
-  initLogFile: () => Promise<void>;
 };
-
-const LOG_FILE = FileSystem.documentDirectory + "trials.csv";
 
 export const useScenarioStore = create<ScenarioState>((set) => ({
   currentTrial: 0,
@@ -85,9 +69,6 @@ export const useScenarioStore = create<ScenarioState>((set) => ({
   currentTotal: 0,
   tippedTotal: 0,
   nextParticipantID: 1,
-  logMessage: "\n start of log \n",
-  totalEntryLog: "no total entered",
-  tipSelectionLog: "no tip selected",
   useDummyID: false,
   answers: { ...initialAnswers },
   scenarioFLow: [],
@@ -105,10 +86,6 @@ export const useScenarioStore = create<ScenarioState>((set) => ({
   setParticipantID: (id) => set({ nextParticipantID: id }),
   incrementParticipantID: (id) => set({ nextParticipantID: id }),
   setTippedTotal: (total) => set({ tippedTotal: total }),
-  setLogMessage: (message) =>
-    set((state) => ({ logMessage: state.logMessage + message })),
-  setTotalEntryLog: (log) => set({ totalEntryLog: log }),
-  setTipSelectionLog: (log) => set({ tipSelectionLog: log }),
   setTotal: (total) => set({ currentTotal: total }),
   nextScenario: () =>
     set((state) => ({
@@ -119,38 +96,4 @@ export const useScenarioStore = create<ScenarioState>((set) => ({
     set((state) => ({
       completedTrials: [...state.completedTrials, state.currentTrial],
     })),
-  resetLogMessage: () => set({ logMessage: "\n Next Trial \n" }),
-  initLogFile: async () => {
-    try {
-      const fileInfo = await FileSystem.getInfoAsync(LOG_FILE);
-      if (!fileInfo.exists) {
-        await FileSystem.writeAsStringAsync(
-          LOG_FILE,
-          "timestamp,event,value\n"
-        );
-      }
-      const contents = await FileSystem.readAsStringAsync(LOG_FILE);
-      set({ logMessage: contents });
-    } catch (error) {
-      console.error("Error initializing log file:", error);
-    }
-  },
-  appendToLog: async (data) => {
-    try {
-      // Read existing content
-      const existing = await FileSystem.readAsStringAsync(LOG_FILE).catch(
-        () => ""
-      );
-
-      // Write old + new content
-      const newContent = existing + `${data}\n`;
-      await FileSystem.writeAsStringAsync(LOG_FILE, newContent, {
-        encoding: FileSystem.EncodingType.UTF8,
-      });
-
-      set({ logMessage: "\n" });
-    } catch (error) {
-      console.error("Error appending log:", error);
-    }
-  },
 }));

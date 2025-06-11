@@ -40,12 +40,14 @@ const AnimatedFlatList = Animated.createAnimatedComponent(
 interface RoundingCarouselProps {
   values: (number | string)[];
   currentTotal: number;
+  format?: string;
   onChange: (value: number | string) => void;
 }
 
 const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
   values,
   currentTotal,
+  format,
   onChange,
 }) => {
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -307,7 +309,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     justifyContent: "space-between",
-    marginLeft: 24, // more space between buttons and carousel
+    marginLeft: 20, // more space between buttons and carousel
   },
   button: {
     backgroundColor: "#ece6f0",
@@ -317,7 +319,6 @@ const styles = StyleSheet.create({
     height: BASE_BUTTON_SIZE * scale,
     borderRadius: (BASE_BUTTON_SIZE * scale) / 2,
     marginVertical: 10,
-    // padding: 0, // not needed if width/height are set
   },
   icon: {
     width: 32 * scale,

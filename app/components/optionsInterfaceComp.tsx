@@ -157,6 +157,7 @@ const styles = StyleSheet.create({
   tipOptionsSection: {
     flex: 2,
     alignItems: "center",
+    alignSelf: "center",
     marginBottom: 24 * scale,
     marginHorizontal: 10 * scale,
     padding: 20 * scale,
@@ -199,7 +200,7 @@ const styles = StyleSheet.create({
     fontSize: 18 * scale,
     fontWeight: "500",
     color: "#4f4f4f",
-    marginLeft: 8 * scale,
+    marginHorizontal: 8 * scale,
   },
 });
 export default OptionsInterfaceComp;
