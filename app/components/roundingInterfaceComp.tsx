@@ -24,20 +24,12 @@ const RoundingInterfaceComp: React.FC<RoundingInterfaceCompProps> = ({
 
   let valuesSumRound = useTipRounding(currentTotal); //
   valuesSumRound = [...valuesSumRound, currentTotal];
-  let valuesFixed: number[] | string[] = [
+  let valuesFixed: number[] = [
     0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0,
   ].reverse();
   const valuesSumFixed = valuesFixed.map((value) => value + currentTotal);
-  const valuesPercent = [
-    "0%",
-    "5%",
-    "10%",
-    "15%",
-    "20%",
-    "25%",
-    "30%",
-    "35%",
-    "40%",
+  const valuesPercent: number[] = [
+    0.0, 5.0, 10, 15, 20, 25, 30, 35, 40, 45, 50,
   ].reverse();
 
   let values;
@@ -72,6 +64,7 @@ const RoundingInterfaceComp: React.FC<RoundingInterfaceCompProps> = ({
         <View style={styles.carouselBox}>
           <RoundingCarousel
             values={values}
+            format={format}
             currentTotal={currentTotal}
             onChange={(value) => {
               if (format === "Percent") {

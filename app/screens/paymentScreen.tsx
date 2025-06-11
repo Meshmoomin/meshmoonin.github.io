@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     borderRadius: 20 * scale,
     alignContent: "center",
     justifyContent: "center",
-    padding: 0,
+    padding: 10 * scale,
     backgroundColor: "#fff",
   },
   placementIcon: {
@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     alignSelf: "center",
     marginVertical: 20 * scale,
+    margin: 20 * scale,
   },
   instructionText: {
     marginTop: 20 * scale,
@@ -147,6 +148,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     zIndex: 1,
+    padding: 20 * scale,
   },
 });
 

@@ -29,19 +29,19 @@ const CENTER_OFFSET = ITEM_HEIGHT * Math.floor(VISIBLE_ITEMS / 2);
 
 const AnimatedFlatList = Animated.createAnimatedComponent(
   FlatList as React.ComponentClass<
-    React.ComponentProps<typeof FlatList<string | number>>
+    React.ComponentProps<typeof FlatList<number>>
   >
 ) as React.ComponentType<
-  React.ComponentProps<typeof FlatList<string | number>> & {
-    ref?: React.Ref<FlatList<string | number>>;
+  React.ComponentProps<typeof FlatList<number>> & {
+    ref?: React.Ref<FlatList<number>>;
   }
 >;
 
 interface RoundingCarouselProps {
-  values: (number | string)[];
+  values: number[];
   currentTotal: number;
-  format?: string;
-  onChange: (value: number | string) => void;
+  format: string;
+  onChange: (value: number) => void;
 }
 
 const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
@@ -51,7 +51,7 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
   onChange,
 }) => {
   const scrollY = useRef(new Animated.Value(0)).current;
-  const flatListRef = useRef<FlatList<number | string>>(null);
+  const flatListRef = useRef<FlatList<number>>(null);
 
   // Add currentTotal to the bottom of the list
   //const extendedValues = [...values, currentTotal];
@@ -63,7 +63,7 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
   );
 
   const getItemLayout = (
-    data: ArrayLike<string | number> | null | undefined,
+    data: ArrayLike<number> | null | undefined,
     index: number
   ) => ({
     length: ITEM_HEIGHT,
@@ -71,15 +71,17 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
     index,
   });
 
+  const clamp = (num: number, min: number, max: number) =>
+    Math.max(min, Math.min(num, max));
+
   const scrollToIndex = (index: number) => {
-    if (index >= 0 && index < extendedValues.length) {
-      flatListRef.current?.scrollToOffset({
-        offset: index * ITEM_HEIGHT,
-        animated: true,
-      });
-      onChange(extendedValues[index]);
-      setCenterIndex(index);
-    }
+    const clampedIndex = clamp(index, 0, extendedValues.length - 1);
+    flatListRef.current?.scrollToOffset({
+      offset: clampedIndex * ITEM_HEIGHT,
+      animated: true,
+    });
+    onChange(extendedValues[clampedIndex]);
+    setCenterIndex(clampedIndex);
   };
 
   const handleScrollUp = () => {
@@ -101,7 +103,11 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
 
   const handleScrollEndDrag = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const y = e.nativeEvent.contentOffset.y;
-    const index = Math.round(y / ITEM_HEIGHT);
+    const index = clamp(
+      Math.round(y / ITEM_HEIGHT),
+      0,
+      extendedValues.length - 1
+    );
     setCenterIndex(index);
     flatListRef.current?.scrollToOffset({
       offset: index * ITEM_HEIGHT,
@@ -125,23 +131,26 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
 
   const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const y = e.nativeEvent.contentOffset.y;
-    setCenterIndex(Math.round(y / ITEM_HEIGHT));
+    const index = clamp(
+      Math.round(y / ITEM_HEIGHT),
+      0,
+      extendedValues.length - 1
+    );
+    setCenterIndex(index);
     debouncedScrollEnd(y);
   };
 
   const handleMomentumEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const y = e.nativeEvent.contentOffset.y;
-    const index = Math.round(y / ITEM_HEIGHT);
+    const index = clamp(
+      Math.round(y / ITEM_HEIGHT),
+      0,
+      extendedValues.length - 1
+    );
     onChange(extendedValues[index]);
   };
 
-  const renderItem = ({
-    item,
-    index,
-  }: {
-    item: number | string;
-    index: number;
-  }) => {
+  const renderItem = ({ item, index }: { item: number; index: number }) => {
     const inputRange = [
       (index - 2) * ITEM_HEIGHT,
       (index - 1) * ITEM_HEIGHT,
@@ -166,10 +175,10 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
 
     // Format display value
     let displayValue: string;
-    if (typeof item === "number") {
-      displayValue = item.toFixed(2) + "€";
+    if (format === "Percent") {
+      displayValue = item + "%";
     } else {
-      displayValue = item;
+      displayValue = item.toFixed(2) + "€";
     }
 
     return (
@@ -239,7 +248,10 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
           )}
           onMomentumScrollEnd={handleMomentumEnd}
           onScrollEndDrag={handleScrollEndDrag}
-          initialScrollIndex={extendedValues.length - 1}
+          initialScrollIndex={Math.max(
+            0,
+            Math.min(extendedValues.length - 1, extendedValues.length - 1)
+          )}
         />
       </View>
       <FadeLower
