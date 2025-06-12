@@ -77,6 +77,7 @@ export default function UserExperienceQuestionnaire() {
 
   // Track answers by question id
   const [answers, setAnswers] = React.useState<Record<string, number>>({});
+  const [showWarning, setShowWarning] = React.useState(false);
 
   const handleRadioSelect = (questionId: string, value: number) => {
     const scenario =
@@ -86,10 +87,16 @@ export default function UserExperienceQuestionnaire() {
   };
 
   const handleComplete = () => {
+    if (!allAnswered) {
+      setShowWarning(true);
+      return;
+    }
+    setShowWarning(false);
     nextScenario();
-    // Navigate to next screen
     navigation.navigate("FlowController");
   };
+
+  const allAnswered = ueQuestions.every((q) => answers[q.id]);
 
   return (
     <ScrollView
@@ -147,13 +154,18 @@ export default function UserExperienceQuestionnaire() {
           </View>
         </View>
       ))}
+      {showWarning && (
+        <Text style={{ color: "red", marginVertical: 12, textAlign: "center" }}>
+          Bitte beantworte alle Fragen, bevor du fortfährst.
+        </Text>
+      )}
       <Pressable
         style={({ pressed }) => [
           commonStyles.confirmButtonPressable,
           commonStyles.confirmButtonGreen,
           pressed && commonStyles.buttonPressed,
         ]}
-        onPress={() => handleComplete()}
+        onPress={handleComplete}
       >
         <Text style={commonStyles.confirmButtonText}>Weiter</Text>
       </Pressable>

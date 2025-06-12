@@ -49,12 +49,24 @@ export default function SystemUsabilityScale() {
 
   // Track answers by string question id
   const [answers, setAnswers] = React.useState<Record<string, number>>({});
+  const [showWarning, setShowWarning] = React.useState(false);
 
   const handleRadioSelect = (questionId: string, value: number) => {
     const scenario =
       answerIdentifier.charAt(0) === "R" ? "Rounding" : "Options";
     setAnswers((prev) => ({ ...prev, [questionId]: value }));
     setAnswer(scenario + questionId, value); // Save answer in Zustand store
+  };
+
+  const allAnswered = susQuestions.every((q) => answers[q.id]);
+
+  const handleComplete = () => {
+    if (!allAnswered) {
+      setShowWarning(true);
+      return;
+    }
+    setShowWarning(false);
+    navigation.navigate("UserExperienceQuestionnaire");
   };
 
   return (
@@ -100,13 +112,18 @@ export default function SystemUsabilityScale() {
           </View>
         </View>
       ))}
+      {showWarning && (
+        <Text style={{ color: "red", marginVertical: 12, textAlign: "center" }}>
+          Bitte beantworte alle Fragen, bevor du fortfährst.
+        </Text>
+      )}
       <Pressable
         style={({ pressed }) => [
           commonStyles.confirmButtonPressable,
           commonStyles.confirmButtonGreen,
           pressed && commonStyles.buttonPressed,
         ]}
-        onPress={() => navigation.navigate("UserExperienceQuestionnaire")}
+        onPress={handleComplete}
       >
         <Text style={commonStyles.confirmButtonText}>Weiter</Text>
       </Pressable>

@@ -52,29 +52,10 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
 }) => {
   const scrollY = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList<number>>(null);
-  const [centerIndex, setCenterIndex] = React.useState(values.length - 1); // Start at bottom
-  const isScrolling = useRef(false);
-  const scrollEndTimer = useRef<NodeJS.Timeout>();
 
-  // Initialize to show last item (bottom) first
-  React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      scrollToIndex(values.length - 1, false);
-    }, 50);
-    return () => clearTimeout(timeout);
-  }, []);
-
-  const scrollToIndex = (index: number, animated = true) => {
-    const clampedIndex = clamp(index, 0, values.length - 1);
-    flatListRef.current?.scrollToOffset({
-      offset: clampedIndex * ITEM_HEIGHT,
-      animated,
-    });
-    if (clampedIndex !== centerIndex) {
-      setCenterIndex(clampedIndex);
-    }
-    onChange(values[clampedIndex]);
-  };
+  // Initialize the selected value to the last value in the list
+  //const [centerIndex, setCenterIndex] = React.useState(values.length - 1);
+  const [centerIndex, setCenterIndex] = React.useState(0);
 
   const getItemLayout = (
     data: ArrayLike<number> | null | undefined,
@@ -88,6 +69,18 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
   const clamp = (num: number, min: number, max: number) =>
     Math.max(min, Math.min(num, max));
 
+  const scrollToIndex = (index: number) => {
+    const clampedIndex = clamp(index, 0, values.length - 1);
+    if (clampedIndex !== centerIndex) {
+      flatListRef.current?.scrollToOffset({
+        offset: clampedIndex * ITEM_HEIGHT,
+        animated: true,
+      });
+      onChange(values[clampedIndex]);
+      setCenterIndex(clampedIndex);
+    }
+  };
+
   const handleScrollUp = () => {
     scrollToIndex(centerIndex - 1);
   };
@@ -96,42 +89,45 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
     scrollToIndex(centerIndex + 1);
   };
 
-  const handleScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    //if (!isScrolling.current) return;
-    console.log("HandleScrollEnd called");
+  // Debounce utility
+  function debounce(func: (...args: any[]) => void, wait: number) {
+    let timeout: NodeJS.Timeout;
+    return (...args: any[]) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), wait);
+    };
+  }
 
-    clearTimeout(scrollEndTimer.current);
-    scrollEndTimer.current = setTimeout(() => {
-      isScrolling.current = false;
-      const y = e.nativeEvent.contentOffset.y;
+  const handleScrollEndDrag = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const y = e.nativeEvent.contentOffset.y;
+    const index = clamp(Math.round(y / ITEM_HEIGHT), 0, values.length - 1);
+    setCenterIndex(index);
+    flatListRef.current?.scrollToOffset({
+      offset: index * ITEM_HEIGHT,
+      animated: true,
+    });
+    onChange(values[index]);
+  };
+
+  // Debounced scroll handler for web/desktop
+  const debouncedScrollEnd = useRef(
+    debounce((y: number) => {
       const index = Math.round(y / ITEM_HEIGHT);
-      scrollToIndex(index);
-    }, 100); // Small delay to allow momentum to settle
-    sloppyScrollEnd();
-    console.log("Scroll ended at index:", centerIndex);
-  };
-  const sloppyScrollEnd = () => {
-    scrollToIndex(centerIndex);
-    console.log("Sloppy scroll end at index:", centerIndex);
-    onChange(values[centerIndex]);
-  };
+      setCenterIndex(index);
+      flatListRef.current?.scrollToOffset({
+        offset: index * ITEM_HEIGHT,
+        animated: true,
+      });
+      onChange(values[index]);
+    }, 60)
+  ).current;
 
-  // Modified scroll handler to track scrolling state
-  const handleScroll = Animated.event(
-    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-    {
-      useNativeDriver: false,
-      listener: (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-        const y = e.nativeEvent.contentOffset.y;
-        const index = Math.round(y / ITEM_HEIGHT);
-        const clampedIndex = clamp(index, 0, values.length - 1);
-        if (clampedIndex !== centerIndex) {
-          setCenterIndex(clampedIndex);
-        }
-        onChange(values[clampedIndex]);
-      },
-    }
-  );
+  const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const y = e.nativeEvent.contentOffset.y;
+    const index = clamp(Math.round(y / ITEM_HEIGHT), 0, values.length - 1);
+    setCenterIndex(index);
+    debouncedScrollEnd(y);
+  };
 
   const handleMomentumEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const y = e.nativeEvent.contentOffset.y;
@@ -216,27 +212,33 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
           />
         </View>
         <AnimatedFlatList
+          onLayout={() => {
+            scrollToIndex(values.length - 1);
+          }}
           ref={flatListRef}
           data={values}
           renderItem={renderItem}
           getItemLayout={getItemLayout}
           snapToInterval={ITEM_HEIGHT}
-          snapToAlignment="center"
-          decelerationRate={0.05}
+          decelerationRate={"fast"}
           showsVerticalScrollIndicator={false}
           scrollEventThrottle={16}
           contentContainerStyle={{
             paddingVertical: CENTER_OFFSET,
           }}
-          initialScrollIndex={values.length - 1}
-          onScrollBeginDrag={() => {
-            isScrolling.current = true;
-          }}
-          onScroll={handleScroll}
-          onMomentumScrollEnd={handleScrollEnd}
-          onScrollEndDrag={handleScrollEnd}
-          onTouchEnd={sloppyScrollEnd}
-          //onScrollAnimationEnd={sloppyScrollEnd}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+            {
+              useNativeDriver: true,
+              listener: handleScroll,
+            }
+          )}
+          onMomentumScrollEnd={handleMomentumEnd}
+          onScrollEndDrag={handleScrollEndDrag}
+          initialScrollIndex={Math.max(
+            0,
+            Math.min(values.length - 1, values.length - 1)
+          )}
         />
       </View>
       <FadeLower

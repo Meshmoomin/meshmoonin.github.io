@@ -1,5 +1,12 @@
 import * as React from "react";
-import { Text, StyleSheet, View, ScrollView, Pressable } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  ScrollView,
+  Pressable,
+  Alert,
+} from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNavigationProp } from "@/types/navigation";
@@ -27,10 +34,22 @@ export default function UniversalFollowUp() {
 
   // Track answers by string question id
   const [answers, setAnswers] = React.useState<Record<string, number>>({});
+  const [showWarning, setShowWarning] = React.useState(false);
 
   const handleRadioSelect = (questionId: string, value: number) => {
     setAnswers((prev) => ({ ...prev, [questionId]: value }));
     setAnswer(answerIdentifier + questionId, value); // Save answer in Zustand store
+  };
+
+  const allAnswered = uniQuestions.every((q) => answers[q.id]);
+
+  const handleProceed = () => {
+    if (!allAnswered) {
+      setShowWarning(true);
+      return;
+    }
+    setShowWarning(false);
+    navigation.navigate("FlowController");
   };
 
   return (
@@ -76,14 +95,18 @@ export default function UniversalFollowUp() {
           </View>
         </View>
       ))}
+      {showWarning && (
+        <Text style={{ color: "red", marginVertical: 12, textAlign: "center" }}>
+          Bitte beantworte alle Fragen, bevor du fortfährst.
+        </Text>
+      )}
       <Pressable
         style={({ pressed }) => [
           commonStyles.confirmButtonPressable,
           commonStyles.confirmButtonGreen,
           pressed && commonStyles.buttonPressed,
         ]}
-        onPress={() => navigation.navigate("FlowController")}
-        //onPress={() => navigation.navigate("TrialComplete")}
+        onPress={handleProceed}
       >
         <Text style={commonStyles.confirmButtonText}>Weiter</Text>
       </Pressable>
@@ -183,5 +206,12 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontFamily: "Roboto",
     fontWeight: "bold",
+  },
+  warningText: {
+    color: "red",
+    fontSize: 16,
+    marginBottom: 16,
+    textAlign: "center",
+    fontFamily: "Roboto",
   },
 });
