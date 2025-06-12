@@ -98,7 +98,7 @@ const IDEntry = () => {
       setParticipantID(parseFloat(amount)); // Save the amount to the store
       const scenarioOrder = generateScenarioOrder(parseFloat(amount));
       storeScenarioFlow(scenarioOrder); // Store the scenario flow in Zustand
-      navigation.navigate("FlowController"); // Navigate to the next screen
+      navigation.navigate("Onboarding"); // Navigate to the next screen
     }
   };
 

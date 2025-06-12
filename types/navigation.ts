@@ -12,6 +12,7 @@ export type RootStackParamList = {
   IDEntry: undefined;
   FlowController: undefined;
   ScenarioDescription: undefined;
+  Onboarding: undefined;
 };
 
 // Type for useNavigation hook

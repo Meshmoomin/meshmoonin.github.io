@@ -17,6 +17,7 @@ import ScenarioDescription from "./app/screens/scenarios/scenarioDescription";
 import SystemUsabilityScale from "./app/screens/followUp/systemUsabilityScale";
 import UserExperienceQuestionnaire from "./app/screens/followUp/userExperienceQuestionnaire";
 import UniversalFollowUp from "./app/screens/followUp/universalFollowUp";
+import Onboarding from "./app/screens/onboarding";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -27,6 +28,7 @@ export default function App() {
         <TerminalView>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="IDEntry" component={IDEntry} />
+            <Stack.Screen name="Onboarding" component={Onboarding} />
             <Stack.Screen
               name="FlowController"
               component={ScenarioFlowController}

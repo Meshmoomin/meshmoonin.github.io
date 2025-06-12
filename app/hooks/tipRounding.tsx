@@ -19,7 +19,8 @@ export const useTipRounding = (total: number): number[] => {
       // For totals less than 10 euros, round to the nearest 50 cents
     }
     if (new_price % roundTo != 0) {
-      new_price = Math.ceil(new_price / roundTo) * roundTo;
+      //new_price = Math.ceil(new_price / roundTo) * roundTo;
+      new_price = Math.round(new_price / roundTo) * roundTo;
     }
 
     // Round up to the next 50 cents

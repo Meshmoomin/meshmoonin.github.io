@@ -71,6 +71,11 @@ export default function SystemUsabilityScale() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <Text style={commonStyles.textSmall}>
+        Du hast gerade ein Interface in einigen verschiedenen Varianten
+        getestet. In den folgenden Fragen geht es um das Interface im
+        Allgemeinen, also um keine spezifische Variante.
+      </Text>
       {susQuestions.map((question) => (
         <View key={question.id} style={styles.questionBlock}>
           <Text style={styles.questionText}>{question.text}</Text>
