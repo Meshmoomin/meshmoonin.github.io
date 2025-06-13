@@ -6,13 +6,13 @@ const initialAnswers: Record<string, string | number> = {
 
   // Questionnaire fields
   ...Object.fromEntries(
-    Array.from({ length: 26 }, (_, i) => [`OptionsUEQ${i + 1}`, "NA"])
+    Array.from({ length: 27 }, (_, i) => [`OptionsUEQ${i + 1}`, "NA"])
   ),
   ...Object.fromEntries(
     Array.from({ length: 10 }, (_, i) => [`OptionsSUS${i + 1}`, "NA"])
   ),
   ...Object.fromEntries(
-    Array.from({ length: 26 }, (_, i) => [`RoundingUEQ${i + 1}`, "NA"])
+    Array.from({ length: 27 }, (_, i) => [`RoundingUEQ${i + 1}`, "NA"])
   ),
   ...Object.fromEntries(
     Array.from({ length: 10 }, (_, i) => [`RoundingSUS${i + 1}`, "NA"])

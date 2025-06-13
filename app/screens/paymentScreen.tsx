@@ -35,7 +35,7 @@ const PaymentScreenNew = () => {
   );
 
   const navigateToFollowUp = () => {
-    navigation.navigate("UniversalFollowUp");
+    navigation.navigate("FlowController");
   };
   const { tippedTotal, currentTrial, scenarioFLow, nextScenario } =
     useScenarioStore();

@@ -60,7 +60,7 @@ export default function UniversalScenario({
 
     markCompleted();
     nextScenario(); //should be called after Payment
-    navigation.navigate("Payment"); //disabled for testing TODO reenable
+    navigation.navigate("Payment");
     //navigation.navigate("UniversalFollowUp"); //Shortcut for testing only
   };
 

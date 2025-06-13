@@ -1,11 +1,21 @@
 import * as React from "react";
-import { Text, StyleSheet, View, ScrollView, Pressable } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  ScrollView,
+  Pressable,
+  Image,
+} from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNavigationProp } from "@/types/navigation";
 import { useScenarioStore } from "@/app/store/store";
 import { useCustomBackHandler } from "@/app/hooks/backHandler";
 import { commonStyles } from "@/app/styles/commonStyles";
+
+import roundingPlaceholderBlurred from "@/assets/images/roundingPlaceholderBlurred.png";
+import optionsPlaceholderBlurred from "@/assets/images/optionsPlaceholderBlurred.png";
 
 export default function SystemUsabilityScale() {
   const navigation = useNavigation<ScreenNavigationProp>();
@@ -69,13 +79,53 @@ export default function SystemUsabilityScale() {
     navigation.navigate("UserExperienceQuestionnaire");
   };
 
+  const imageStyle = { width: 300, borderRadius: 16 };
+  const shadowWrapperStyle = {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 8,
+    borderRadius: 16,
+    backgroundColor: "#fff",
+    alignSelf: "center" as const,
+    marginVertical: 24,
+  };
+
+  let placeholderImage = null;
+  const isRounding = answerIdentifier.charAt(0) === "R";
+  const imageSource = isRounding
+    ? roundingPlaceholderBlurred
+    : optionsPlaceholderBlurred;
+
+  if (isRounding) {
+    placeholderImage = (
+      <View style={shadowWrapperStyle}>
+        <Image source={imageSource} style={imageStyle} resizeMode="contain" />
+      </View>
+    );
+  } else {
+    placeholderImage = (
+      <View style={shadowWrapperStyle}>
+        <Image source={imageSource} style={imageStyle} resizeMode="contain" />
+      </View>
+    );
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={commonStyles.textSmall}>
+      <Text
+        style={[
+          commonStyles.textSmall,
+          commonStyles.midGrey,
+          { marginVertical: 16, textAlign: "center" },
+        ]}
+      >
         Du hast gerade ein Interface in einigen verschiedenen Varianten
         getestet. In den folgenden Fragen geht es um das Interface im
         Allgemeinen, also um keine spezifische Variante.
       </Text>
+      {placeholderImage}
       {susQuestions.map((question) => (
         <View key={question.id} style={styles.questionBlock}>
           <Text style={styles.questionText}>{question.text}</Text>

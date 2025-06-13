@@ -62,6 +62,7 @@ export default function UserExperienceQuestionnaire() {
     { id: "UEQ24", leftLabel: "attraktiv", rightLabel: "unattraktiv" },
     { id: "UEQ25", leftLabel: "sympathisch", rightLabel: "unsympathisch" },
     { id: "UEQ26", leftLabel: "konservativ", rightLabel: "innovativ" },
+    { id: "UEQ27", leftLabel: "aufdringlich", rightLabel: "unaufdringlich" },
   ];
 
   const ueShortQuestions = [
@@ -94,6 +95,7 @@ export default function UserExperienceQuestionnaire() {
     setShowWarning(false);
     nextScenario();
     navigation.navigate("FlowController");
+    //navigation.navigate("TrialComplete"); // Debugging
   };
 
   const allAnswered = ueQuestions.every((q) => answers[q.id]);
@@ -123,7 +125,7 @@ export default function UserExperienceQuestionnaire() {
           </View>
           {/* Radio buttons row */}
           <View style={styles.radioRow}>
-            {[1, 2, 3, 4, 5].map((val) => (
+            {[1, 2, 3, 4, 5, 6, 7].map((val) => (
               <Pressable
                 key={val}
                 style={[
@@ -140,7 +142,7 @@ export default function UserExperienceQuestionnaire() {
           </View>
           {/* Numbers below the radio buttons */}
           <View style={styles.numbersRow}>
-            {[1, 2, 3, 4, 5].map((val) => (
+            {[1, 2, 3, 4, 5, 6, 7].map((val) => (
               <Text
                 key={val}
                 style={[

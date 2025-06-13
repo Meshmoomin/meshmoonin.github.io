@@ -55,6 +55,8 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
   const [centerIndex, setCenterIndex] = React.useState(values.length - 1); // Start at bottom
   const isScrolling = useRef(false);
   const scrollEndTimer = useRef<NodeJS.Timeout>();
+  const [lastScrollY, setLastScrollY] = React.useState(0);
+  const scrollStopTimer = useRef<NodeJS.Timeout | null>(null);
 
   // Initialize to show last item (bottom) first
   React.useEffect(() => {
@@ -123,6 +125,12 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
       useNativeDriver: false,
       listener: (e: NativeSyntheticEvent<NativeScrollEvent>) => {
         const y = e.nativeEvent.contentOffset.y;
+        setLastScrollY(y);
+        if (scrollStopTimer.current) clearTimeout(scrollStopTimer.current);
+        scrollStopTimer.current = setTimeout(() => {
+          // If the scroll position hasn't changed for 100ms, snap
+          sloppyScrollEnd();
+        }, 100);
         const index = Math.round(y / ITEM_HEIGHT);
         const clampedIndex = clamp(index, 0, values.length - 1);
         if (clampedIndex !== centerIndex) {
@@ -133,10 +141,26 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
     }
   );
 
-  const handleMomentumEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const y = e.nativeEvent.contentOffset.y;
-    const index = clamp(Math.round(y / ITEM_HEIGHT), 0, values.length - 1);
-    onChange(values[index]);
+  const scrollEndTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  const handleScrollEndDrag = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    // Start a timer to snap after 200ms (adjust as needed)
+    if (scrollEndTimeout.current) clearTimeout(scrollEndTimeout.current);
+    scrollEndTimeout.current = setTimeout(() => {
+      sloppyScrollEnd();
+    }, 200);
+  };
+
+  const handleMomentumScrollEnd = (
+    e: NativeSyntheticEvent<NativeScrollEvent>
+  ) => {
+    // Snap immediately and clear any pending timer
+    if (scrollEndTimeout.current) clearTimeout(scrollEndTimeout.current);
+    sloppyScrollEnd();
+  };
+
+  const debuggingLog = () => {
+    console.log("DragEnd called");
   };
 
   const renderItem = ({ item, index }: { item: number; index: number }) => {
@@ -180,6 +204,7 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
             height: ITEM_HEIGHT,
             transform: [{ scale: scaleAnim }],
             opacity,
+            backgroundColor: "transparent",
           },
         ]}
       >
@@ -233,9 +258,9 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
             isScrolling.current = true;
           }}
           onScroll={handleScroll}
-          onMomentumScrollEnd={handleScrollEnd}
-          onScrollEndDrag={handleScrollEnd}
-          onTouchEnd={sloppyScrollEnd}
+          //onMomentumScrollEnd={sloppyScrollEnd}
+          onScrollEndDrag={debuggingLog}
+          //onTouchEnd={sloppyScrollEnd}
           //onScrollAnimationEnd={sloppyScrollEnd}
         />
       </View>
