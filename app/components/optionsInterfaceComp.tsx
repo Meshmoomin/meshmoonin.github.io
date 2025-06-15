@@ -25,16 +25,16 @@ const OptionsInterfaceComp: React.FC<RoundingInterfaceCompProps> = ({
   };
 
   const tipOptionsFixed = [
-    { label: "0.50€", value: 0.5 + currentTotal },
-    { label: "1.00€", value: 1.0 + currentTotal },
-    { label: "1.50€", value: 1.5 + currentTotal },
-    { label: "2.00€", value: 2.0 + currentTotal },
+    { label: "+0.50€", value: 0.5 + currentTotal },
+    { label: "+1.00€", value: 1.0 + currentTotal },
+    { label: "+1.50€", value: 1.5 + currentTotal },
+    { label: "+2.00€", value: 2.0 + currentTotal },
   ];
   const tipOptionsPercent = [
-    { label: "5%", value: 1.05 * currentTotal },
-    { label: "10%", value: 1.1 * currentTotal },
-    { label: "15%", value: 1.15 * currentTotal },
-    { label: "20%", value: 1.2 * currentTotal },
+    { label: "+5%", value: 1.05 * currentTotal },
+    { label: "+10%", value: 1.1 * currentTotal },
+    { label: "+15%", value: 1.15 * currentTotal },
+    { label: "+20%", value: 1.2 * currentTotal },
   ];
   const tipOptionsSumFixed = [
     { label: (0.5 + currentTotal).toFixed(2) + "€", value: 0.5 + currentTotal },

@@ -189,9 +189,9 @@ const RoundingCarousel: React.FC<RoundingCarouselProps> = ({
     // Format display value
     let displayValue: string;
     if (format === "Percent") {
-      displayValue = `${item}%`;
-    } else if (format === "Fixed" || format === "sumFixed") {
-      displayValue = `${item.toFixed(2)}€`;
+      displayValue = `+${item}%`;
+    } else if (format === "Fixed") {
+      displayValue = `+${item.toFixed(2)}€`;
     } else {
       displayValue = `${item.toFixed(2)}€`;
     }
